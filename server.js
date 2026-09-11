@@ -37,28 +37,23 @@ const upload = multer({ storage });
 // Middleware
 app.use(cors());
 app.use(express.json({ limit: '10mb' }));
-app.use(express.urlencoded({ extended: true, limit: '10mb' }));
-
-// Dedicated Brand Full Website Clean Routes & Shop Sub-routes
-const serveGet pattas = (req, res) => res.sendFile(path.join(__dirname, 'shopno001', 'index.html'));
-const serveGet pattas = (req, res) => res.sendFile(path.join(__dirname, 'shopno002', 'index.html'));
-const serveGet pattas = (req, res) => res.sendFile(path.join(__dirname, 'shopno003', 'index.html'));
-const serveGetPattasu = (req, res) => res.sendFile(path.join(__dirname, 'shopno004', 'index.html'));
-
-// Shop Sub-Domain / Clean URL Routes
-// shopno001 -> Get pattas Crackers
-// shopno002 -> Get pattas 's Crackers
-// shopno003 -> The Get pattas 
-// shopno004 -> Get Pattasu Kadai Master Store
-app.get(['/shopno001', '/shopno001/', '/getpattas/shopno001', '/getpattas/shopno001/', '/getpattasu/shopno001', '/muthu'], serveMuthu);
-app.get(['/shopno002', '/shopno002/', '/getpattas/shopno002', '/getpattas/shopno002/', '/getpattasu/shopno002', '/Get pattas '], serveGet pattas);
-app.get(['/shopno003', '/shopno003/', '/getpattas/shopno003', '/getpattas/shopno003/', '/getpattasu/shopno003', '/red'], serveRed);
-app.get(['/', '/shopno004', '/shopno004/', '/getpattas/shopno004', '/getpattas/shopno004/', '/getpattasu/shopno004', '/getpattas', '/getpattasu'], serveGetPattasu);
-
-// Static Assets
+// Serve Static Assets & Frontend Files
 app.use(express.static(path.join(__dirname)));
-app.use('/getpattas', express.static(path.join(__dirname, 'getpattas')));
 app.use('/uploads', express.static(uploadsDir));
+
+// Route Handlers for Main Site and Storefronts
+const serveIndex = (req, res) => res.sendFile(path.join(__dirname, 'index.html'));
+const serveShop1 = (req, res) => res.sendFile(path.join(__dirname, 'shopno001', 'index.html'));
+const serveShop2 = (req, res) => res.sendFile(path.join(__dirname, 'shopno002', 'index.html'));
+const serveShop3 = (req, res) => res.sendFile(path.join(__dirname, 'shopno003', 'index.html'));
+const serveShop4 = (req, res) => res.sendFile(path.join(__dirname, 'shopno004', 'index.html'));
+
+// Clean URL Routes
+app.get('/', serveIndex);
+app.get(['/shopno001', '/shopno001/'], serveShop1);
+app.get(['/shopno002', '/shopno002/'], serveShop2);
+app.get(['/shopno003', '/shopno003/'], serveShop3);
+app.get(['/shopno004', '/shopno004/'], serveShop4);
 
 // Initial Seed Data (Fallback & Seed with 80% Direct Wholesale Prices)
 const INITIAL_PRODUCTS = [
