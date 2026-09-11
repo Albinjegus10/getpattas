@@ -137,7 +137,7 @@ async function handleAdminLogin(e) {
       errDiv.innerText = data.message || 'Invalid Login Credentials';
     }
   } catch (err) {
-    if (user === 'admin' && pass === 'admin123') {
+    if (user === 'adgetmin' && pass === 'adgetmin321') {
       localStorage.setItem('adminToken', 'authenticated-admin-session-token');
       document.getElementById('loginOverlay').style.display = 'none';
       document.getElementById('adminApp').style.display = 'flex';

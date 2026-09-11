@@ -591,7 +591,7 @@ app.get('/api/admin/customers', async (req, res) => {
 // Admin Authentication
 app.post('/api/admin/login', (req, res) => {
   const { username, password } = req.body;
-  if (username === 'admin' && password === 'admin123') {
+  if (username === 'adgetmin' && password === 'adgetmin321') {
     return res.json({ success: true, token: 'authenticated-admin-session-token', message: 'Login successful' });
   }
   return res.status(401).json({ success: false, message: 'Invalid Admin Credentials' });
