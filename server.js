@@ -50,6 +50,8 @@ const serveShop4 = (req, res) => res.sendFile(path.join(__dirname, 'shopno004', 
 
 // Clean URL Routes
 app.get('/', serveIndex);
+app.get(['/admin', '/admin.html'], (req, res) => res.sendFile(path.join(__dirname, 'admin.html')));
+app.get(['/invoice', '/invoice.html'], (req, res) => res.sendFile(path.join(__dirname, 'invoice.html')));
 app.get(['/shopno001', '/shopno001/'], serveShop1);
 app.get(['/shopno002', '/shopno002/'], serveShop2);
 app.get(['/shopno003', '/shopno003/'], serveShop3);
