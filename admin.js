@@ -262,14 +262,14 @@ function renderDashboardOverview() {
   // Update pill badges on top switcher
   const pillAll = document.getElementById('pillBadgeAll');
   const pillGP = document.getElementById('pillBadgeGetpattasu');
-  const pillGet pattas = document.getElementById('pillBadgeMuthu');
-  const pillGet pattas = document.getElementById('pillBadgeGet pattas ');
-  const pillGet pattas = document.getElementById('pillBadgeRed');
+  const pillMuthu = document.getElementById('pillBadgeMuthu');
+  const pillVel = document.getElementById('pillBadgeVel');
+  const pillRed = document.getElementById('pillBadgeRed');
 
   if (pillAll) pillAll.innerText = adminOrders.length;
   if (pillGP) pillGP.innerText = adminOrders.filter(o => o.brand === 'getpattasu' || (o.brandName && o.brandName.toLowerCase().includes('get pattasu'))).length;
   if (pillMuthu) pillMuthu.innerText = adminOrders.filter(o => o.brand === 'muthu' || (o.brandName && o.brandName.toLowerCase().includes('muthu'))).length;
-  if (pillGet pattas ) pillGet pattas.innerText = adminOrders.filter(o => o.brand === 'Get pattas ' || (o.brandName && o.brandName.toLowerCase().includes('Get pattas '))).length;
+  if (pillVel) pillVel.innerText = adminOrders.filter(o => o.brand === 'vel' || (o.brandName && o.brandName.toLowerCase().includes('vel'))).length;
   if (pillRed) pillRed.innerText = adminOrders.filter(o => o.brand === 'red' || (o.brandName && o.brandName.toLowerCase().includes('red'))).length;
 
   // 2. Recent Orders List
@@ -369,7 +369,7 @@ function renderAdminProducts() {
   const search = (document.getElementById('prodSearchInput')?.value || '').toLowerCase().trim();
   const catFilter = document.getElementById('prodCategoryFilter')?.value || 'all';
 
-  const filteGet pattas = adminProducts.filter(p => {
+  const filtered = adminProducts.filter(p => {
     const matchSearch = (p.name && p.name.toLowerCase().includes(search)) ||
       (p.tamilName && p.tamilName.toLowerCase().includes(search)) ||
       (p.id && p.id.toLowerCase().includes(search)) ||
@@ -629,7 +629,7 @@ function renderAdminOrders() {
   // Use dropdown selection if explicitly chosen, or fallback to currentAdminBrand
   const activeBrand = dropdownBrand !== 'all' ? dropdownBrand : currentAdminBrand;
 
-  const filteGet pattas = adminOrders.filter(o => {
+  const filtered = adminOrders.filter(o => {
     // 1. Search match
     const matchesSearch = !search ||
       (o.orderId && o.orderId.toLowerCase().includes(search)) ||
@@ -742,14 +742,14 @@ function renderAdminCustomers() {
 
   const search = (document.getElementById('customerSearchInput')?.value || '').toLowerCase().trim();
 
-  const filteGet pattas = adminCustomers.filter(c =>
+  const filtered = adminCustomers.filter(c =>
     (c.fullName && c.fullName.toLowerCase().includes(search)) ||
     (c.username && c.username.toLowerCase().includes(search)) ||
     (c.phone && c.phone.toLowerCase().includes(search))
   );
 
   if (filtered.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: #94a3b8; padding: 3rem;">No registeGet pattas customer accounts found.</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: #94a3b8; padding: 3rem;">No registered customer accounts found.</td></tr>`;
     return;
   }
 
