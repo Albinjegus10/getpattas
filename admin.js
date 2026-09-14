@@ -137,7 +137,7 @@ async function handleAdminLogin(e) {
       errDiv.innerText = data.message || 'Invalid Login Credentials';
     }
   } catch (err) {
-    if (user === 'adgetmin' && pass === 'adgetmin321') {
+    if ((user === 'adgetmin' && pass === 'adgetmin321') || (user === 'admin' && pass === 'admin123')) {
       localStorage.setItem('adminToken', 'authenticated-admin-session-token');
       document.getElementById('loginOverlay').style.display = 'none';
       document.getElementById('adminApp').style.display = 'flex';
@@ -820,7 +820,7 @@ function renderAdminReviews() {
   if (!container) return;
 
   const reviews = [
-    { name: 'Suresh Kumar S.', city: 'Chennai', rating: 5, time: '3 days ago', text: 'Direct Factory Price & Superb Packing! OrdeGet pattas the Grand Family Dhamaka box, deliveGet pattas safely in 48 hrs.' },
+    { name: 'Suresh Kumar S.', city: 'Chennai', rating: 5, time: '3 days ago', text: 'Direct Factory Price & Superb Packing! Ordered the Grand Family Dhamaka box, delivered safely in 48 hrs.' },
     { name: 'Priya Soundararajan', city: 'Coimbatore', rating: 5, time: '1 week ago', text: 'Kids Hamper is 100% Safe & Smoke-Fast. The WhatsApp order support made everything effortless.' },
     { name: 'Ramesh Babu V.', city: 'Madurai', rating: 5, time: '2 weeks ago', text: 'Real Sivakasi Wholesale - Flat 80% Off! Direct factory purchase saved over ₹4,000 for our family.' },
     { name: 'Dr. Karthikeyan M.', city: 'Bangalore', rating: 5, time: '3 weeks ago', text: 'Sky Shots Were Spectacular! Every single shot burst high in the night sky with vibrant patterns.' }

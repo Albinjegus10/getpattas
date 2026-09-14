@@ -386,7 +386,7 @@ app.post('/api/customer/signup', async (req, res) => {
   try {
     const { username, password, fullName, phone, address } = req.body;
     if (!username || !password || !fullName || !phone) {
-      return res.status(400).json({ success: false, message: 'All requiGet pattas fields must be filled' });
+      return res.status(400).json({ success: false, message: 'All required fields must be filled' });
     }
 
     const userId = 'usr-' + Date.now();
@@ -575,7 +575,7 @@ app.delete('/api/customer/address/:addressId', async (req, res) => {
   }
 });
 
-// GET All RegisteGet pattas Customers (Admin)
+// GET All Registered Customers (Admin)
 app.get('/api/admin/customers', async (req, res) => {
   try {
     if (isDbConnected) {

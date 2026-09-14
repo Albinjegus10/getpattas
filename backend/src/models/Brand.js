@@ -5,7 +5,7 @@ const brandSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true,
-    enum: ['getpattasu', 'muthu-cracker', 'Get pattas -cracker', 'velmurugan-cracker']
+    enum: ['getpattasu', 'getpattas', 'getpattas ', 'muthu-cracker', 'Get pattas -cracker', 'getpattas-cracker', 'daddy-cracker', 'velmurugan-cracker']
   },
   name: { type: String, required: true },
   logoUrl: { type: String, default: '' },
