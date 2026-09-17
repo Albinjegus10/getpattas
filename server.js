@@ -41,8 +41,13 @@ app.use(cors({
   credentials: true
 }));
 app.use(express.json({ limit: '10mb' }));
-// Serve Static Assets & Frontend Files
-app.use(express.static(path.join(__dirname)));
+app.use(express.static(path.join(__dirname), {
+  setHeaders: (res, filePath) => {
+    if (/\.(js|css|html)$/i.test(filePath)) {
+      res.setHeader('Cache-Control', 'no-cache, must-revalidate');
+    }
+  }
+}));
 app.use('/uploads', express.static(uploadsDir));
 
 // Route Handlers for Main Site and Storefronts
