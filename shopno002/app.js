@@ -362,7 +362,7 @@ function renderPriceListTable() {
     const catSlug = `cat-${currentBrand}-${catIdx}`;
     const items = categoriesMap[catName];
 
-    // Check if category is filteGet pattas out
+    // Check if category is filtered out
     if (currentCategoryFilter !== 'all' && currentCategoryFilter !== catSlug) {
       return;
     }
@@ -1552,7 +1552,7 @@ function handleCheckoutFormSubmit(e) {
   custWaMsg += `• Phone: *${custPhone}*\n`;
   custWaMsg += `• Delivery Address: *${custAddress}*\n`;
   custWaMsg += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
-  custWaMsg += `📦 *ORDEGet pattas VARIETIES (${cart.length}):*\n`;
+  custWaMsg += `📦 *ORDERED VARIETIES (${cart.length}):*\n`;
   cart.forEach((item, idx) => {
     const rowTot = item.price * item.qty;
     custWaMsg += `${idx + 1}. *${item.name}* × ${item.qty} Boxes = ₹${rowTot.toLocaleString('en-IN')}\n`;
@@ -2113,7 +2113,7 @@ function handleCustomerSignup(e) {
   updateCustomerHeaderUI();
   closeCustomerModal();
   const brandObj = (window.BRANDS_CONFIG && window.BRANDS_CONFIG[currentBrand]) ? window.BRANDS_CONFIG[currentBrand] : {};
-  showToast(`Account registeGet pattas in Get Pattas! Welcome, ${name}`);
+  showToast(`Account registered in Get Pattas! Welcome, ${name}`);
 }
 
 // 100% Isolated Customer Logout for Current Shop (Never affects other shops)

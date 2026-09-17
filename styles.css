@@ -2506,7 +2506,7 @@ img {
 }
 
 .footer-bottom,
-.footer-bottom-centeGet pattas {
+.footer-bottom-centered {
     border-top: 1px solid rgba(255, 255, 255, 0.08);
     padding-top: 1.8rem;
     display: flex;
@@ -8121,7 +8121,7 @@ body[data-brand="getpattasu"] .btn-primary {
 }
 
 /* ==========================================================================
-   ABOUT US SECTION (CenteGet pattas Header, Compact Photo & Paragraph Story Flow)
+   ABOUT US SECTION (Centered Header, Compact Photo & Paragraph Story Flow)
    ========================================================================== */
 .about-section {
     padding: 4.5rem 0;
@@ -8419,7 +8419,7 @@ body[data-brand="getpattasu"] .btn-primary {
 }
 
 /* ==========================================================================
-   MAIN FOOTER & CENTEGet pattas KAIRA TECHNOLOGIES CREDIT
+   MAIN FOOTER & CENTERED KAIRA TECHNOLOGIES CREDIT
    ========================================================================== */
 .main-footer {
     background: #0f172a;
@@ -8560,8 +8560,8 @@ body[data-brand="getpattasu"] .btn-primary {
     color: #ffffff;
 }
 
-/* CenteGet pattas Footer Bottom */
-.footer-bottom-centeGet pattas {
+/* Centered Footer Bottom */
+.footer-bottom-centered {
     border-top: 1px solid rgba(255, 255, 255, 0.1);
     padding-top: 1.75rem;
     margin-top: 2.5rem;

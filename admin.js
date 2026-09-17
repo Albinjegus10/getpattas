@@ -1624,7 +1624,7 @@ function showAdminToast(title, message, type = 'info', duration = 4500) {
 
 
 // ----------------------------------------------------
-// REGISTEGet pattas CUSTOMERS (USERS VIEW)
+// REGISTERED CUSTOMERS (USERS VIEW)
 // ----------------------------------------------------
 async function loadAdminCustomers() {
   try {
