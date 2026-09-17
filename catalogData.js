@@ -1,18 +1,19 @@
 /**
- * GET PATTASU - MULTI-BRAND SIVAKASI FIREWORKS CATALOG
+ * Get Pattas - MULTI-BRAND SIVAKASI FIREWORKS CATALOG
  * 4 Brands:
  * 1. Get pattas Crackers (Get pattas Crackers - 218 items)
  * 2. Get pattas  Crackers (Get pattas 's Special & Novelty Pyro - 100+ items)
  * 3. Get pattas  (The Get pattas  - 127 items)
- * 4. Get Pattasu (Flagship Wholesale & Combo Packs)
+ * 4. Get Pattas (Flagship Wholesale & Combo Packs)
  */
 
 window.BRANDS_CONFIG = {
   'muthu': {
     slug: 'muthu',
-    name: 'Get Pattas',
+    name: 'Get Pattas - Get pattas Crackers',
+    wholesaleTitle: 'Get Pattas - Get pattas Crackers Price List-001',
     shortName: 'Get Pattas',
-    tagline: 'Direct Sivakasi Factory Rate • Flat 80% Discount',
+    tagline: 'Direct Sivakasi Factory Rate • Flat 80% Discount • Touch \'+\' to increase quantity',
     phone: '+91 86104 51118',
     phoneAlt: '+91 86104 51118',
     email: 'sales@getpattas.com',
@@ -20,7 +21,7 @@ window.BRANDS_CONFIG = {
     discountText: '80% OFF',
     discountPercent: 80,
     themeColor: '#059669',
-    badge: 'GET PATTAS',
+    badge: 'GET PATTAS (SHOP 001)',
     minOrder: 3000,
     minOrderTN: 3000,
     minOrderOther: 3000,
@@ -28,17 +29,18 @@ window.BRANDS_CONFIG = {
   },
   'Get pattas ': {
     slug: 'Get pattas ',
-    name: 'Get Pattas',
+    name: 'Get Pattas Crackers',
+    wholesaleTitle: 'Get Pattas Crackers Wholesale Price List-002',
     shortName: 'Get Pattas',
-    tagline: 'Famous Get pattas  Special Fountains, Pyro Tech & Novelty Series',
-    phone: '+91 86104 51118',
-    phoneAlt: '+91 86104 51118',
+    tagline: 'Special Fountains & Novelty Series • Single-Touch Instant Quantity Steppers',
+    phone: '+91 94431 22889',
+    phoneAlt: '+91 94431 22889',
     email: 'orders@getpattas.com',
     address: 'Get Pattas Depot, Sivakasi, Tamil Nadu - 626189',
     discountText: '80% OFF',
     discountPercent: 80,
     themeColor: '#7c3aed',
-    badge: 'GET PATTAS',
+    badge: 'GET PATTAS (SHOP 002)',
     minOrder: 3000,
     minOrderTN: 3000,
     minOrderOther: 3000,
@@ -46,17 +48,18 @@ window.BRANDS_CONFIG = {
   },
   'red': {
     slug: 'red',
-    name: 'Get Pattas',
+    name: 'The Get pattas',
+    wholesaleTitle: 'Get Pattas - The Get pattas Wholesale Price List-003',
     shortName: 'Get Pattas',
-    tagline: 'Celebrate Bigger, Save More! Direct Sivakasi Up to 90% Off',
-    phone: '+91 86104 51118',
-    phoneAlt: '+91 86104 51118',
+    tagline: 'Celebrate Bigger, Save More! Up to 90% Off • Touch \'+\' to increase quantity',
+    phone: '+91 95661 59113',
+    phoneAlt: '+91 95661 59113',
     email: 'sales@getpattas.com',
     address: 'Get Pattas Depot, Sivakasi, Tamil Nadu - 626123',
     discountText: 'UP TO 90% OFF',
     discountPercent: 80,
     themeColor: '#dc2626',
-    badge: 'GET PATTAS',
+    badge: 'GET PATTAS (SHOP 003)',
     minOrder: 3000,
     minOrderTN: 3000,
     minOrderOther: 3000,
@@ -64,9 +67,10 @@ window.BRANDS_CONFIG = {
   },
   'getpattasu': {
     slug: 'getpattasu',
-    name: 'Get Pattas',
+    name: 'Get Pattas Kadai',
+    wholesaleTitle: 'Get Pattas Kadai - Wholesale Price List-004',
     shortName: 'Get Pattas',
-    tagline: 'Direct Wholesale from Sivakasi Factory • Flat 80% Discount',
+    tagline: 'Direct Sivakasi Factory Rate • Flat 80% Discount • Touch \'+\' to increase quantity',
     phone: '+91 86104 51118',
     phoneAlt: '+91 86104 51118',
     email: 'sales@getpattas.com',
@@ -74,7 +78,7 @@ window.BRANDS_CONFIG = {
     discountText: 'FLAT 80% OFF',
     discountPercent: 80,
     themeColor: '#d97706',
-    badge: 'GET PATTAS',
+    badge: 'GET PATTAS (SHOP 004)',
     minOrder: 3000,
     minOrderTN: 3000,
     minOrderOther: 3000,
@@ -680,7 +684,7 @@ window.ALL_BRANDS_PRODUCTS = {
   ],
 
   // ==========================================
-  // BRAND 4: GET PATTASU (CURATED MASTER WHOLESALE & COMBOS)
+  // BRAND 4: Get Pattas (CURATED MASTER WHOLESALE & COMBOS)
   // ==========================================
   'getpattasu': [
     { id: 'gp-1', code: 'GP-001', brand: 'getpattasu', category: 'Super Value Sparklers (மத்தாப்பு)', name: '10 CM Royal Electric Sparklers', tamilName: '10 செ.மீ எலட்ரிக் மத்தாப்பு', packInfo: '10 pcs / 1 Box', mrp: 70, price: 14 },
@@ -697,11 +701,11 @@ window.ALL_BRANDS_PRODUCTS = {
     { id: 'gp-12', code: 'GP-012', brand: 'getpattasu', category: 'Sound & Sky Shells (வெடி & வான வெடி)', name: '30 Sky Shots Multi Color', tamilName: '30 ஸ்கை ஷாட்ஸ் மல்டிகலர்', packInfo: '1 pc / 1 Box', mrp: 2250, price: 450 },
     { id: 'gp-13', code: 'GP-013', brand: 'getpattasu', category: 'Sound & Sky Shells (வெடி & வான வெடி)', name: '60 Mega Aerial Sky Shells', tamilName: '60 மெகா ஏரியல் ஷாட்ஸ்', packInfo: '1 pc / 1 Box', mrp: 4500, price: 900 },
     { id: 'gp-14', code: 'GP-014', brand: 'getpattasu', category: 'Sound & Sky Shells (வெடி & வான வெடி)', name: '120 Royal Grand Sky Shells', tamilName: '120 ராயல் கிராண்ட் ஷாட்ஸ்', packInfo: '1 pc / 1 Box', mrp: 9000, price: 1800 },
-    { id: 'gp-15', code: 'GP-015', brand: 'getpattasu', category: 'Bumper Family Gift Boxes (காம்போ பாக்ஸ்)', name: 'Get Pattasu Family Festival Dhamaka Pack (45 Items)', tamilName: 'கெட் பட்டாசு பேமிலி தமாகா பேக் (45 பொருட்கள்)', packInfo: '45 Assorted Items Box', mrp: 9000, price: 1799 },
-    { id: 'gp-16', code: 'GP-016', brand: 'getpattasu', category: 'Bumper Family Gift Boxes (காம்போ பாக்ஸ்)', name: 'Get Pattasu Super VIP Royal Hamper (60 Items)', tamilName: 'கெட் பட்டாசு VIP ராயல் பெட்டகம் (60 பொருட்கள்)', packInfo: '60 Assorted Items Box', mrp: 25000, price: 5000 },
-    { id: 'gp-17', code: 'GP-017', brand: 'getpattasu', category: 'Bumper Family Gift Boxes (காம்போ பாக்ஸ்)', name: 'Get Pattasu Joint Family Mega Box (75 Items)', tamilName: 'கெட் பட்டாசு கூட்டு குடும்ப மெகா பேக் (75 பொருட்கள்)', packInfo: '75 Assorted Items Box', mrp: 50000, price: 10000 },
+    { id: 'gp-15', code: 'GP-015', brand: 'getpattasu', category: 'Bumper Family Gift Boxes (காம்போ பாக்ஸ்)', name: 'Get Pattas Family Festival Dhamaka Pack (45 Items)', tamilName: 'கெட் பட்டாசு பேமிலி தமாகா பேக் (45 பொருட்கள்)', packInfo: '45 Assorted Items Box', mrp: 25000, price: 5000 },
+    { id: 'gp-16', code: 'GP-016', brand: 'getpattasu', category: 'Bumper Family Gift Boxes (காம்போ பாக்ஸ்)', name: 'Get Pattas Super VIP Royal Hamper (60 Items)', tamilName: 'கெட் பட்டாசு VIP ராயல் பெட்டகம் (60 பொருட்கள்)', packInfo: '60 Assorted Items Box', mrp: 25000, price: 5000 },
+    { id: 'gp-17', code: 'GP-017', brand: 'getpattasu', category: 'Bumper Family Gift Boxes (காம்போ பாக்ஸ்)', name: 'Get Pattas Joint Family Mega Box (75 Items)', tamilName: 'கெட் பட்டாசு கூட்டு குடும்ப மெகா பேக் (75 பொருட்கள்)', packInfo: '75 Assorted Items Box', mrp: 50000, price: 10000 },
 
-    // GET PATTASU SPARKLERS EXTENDED
+    // Get Pattas SPARKLERS EXTENDED
     { id: 'gp-18', code: 'GP-018', brand: 'getpattasu', category: 'Super Value Sparklers (மத்தாப்பு)', name: '12 CM Electric Sparklers', tamilName: '12 செ.மீ எலட்ரிக் மத்தாப்பு', packInfo: '10 pcs / 1 Box', mrp: 90, price: 18 },
     { id: 'gp-19', code: 'GP-019', brand: 'getpattasu', category: 'Super Value Sparklers (மத்தாப்பு)', name: '15 CM Get pattas Sparklers', tamilName: '15 செ.மீ சிவப்பு மத்தாப்பு', packInfo: '10 pcs / 1 Box', mrp: 260, price: 52 },
     { id: 'gp-20', code: 'GP-020', brand: 'getpattasu', category: 'Super Value Sparklers (மத்தாப்பு)', name: '15 CM Green Sparklers', tamilName: '15 செ.மீ பச்சை மத்தாப்பு', packInfo: '10 pcs / 1 Box', mrp: 225, price: 45 },
@@ -713,7 +717,7 @@ window.ALL_BRANDS_PRODUCTS = {
     { id: 'gp-26', code: 'GP-026', brand: 'getpattasu', category: 'Super Value Sparklers (மத்தாப்பு)', name: '7 CM Electric Sparklers', tamilName: '7 செ.மீ எலட்ரிக் மத்தாப்பு', packInfo: '10 pcs / 1 Box', mrp: 35, price: 7 },
     { id: 'gp-27', code: 'GP-027', brand: 'getpattasu', category: 'Super Value Sparklers (மத்தாப்பு)', name: '10 CM Colour Sparklers', tamilName: '10 செ.மீ கலர் மத்தாப்பு', packInfo: '10 pcs / 1 Box', mrp: 80, price: 16 },
 
-    // GET PATTASU FLOWER POTS EXTENDED
+    // Get Pattas FLOWER POTS EXTENDED
     { id: 'gp-28', code: 'GP-028', brand: 'getpattasu', category: 'Flowerpots & Chakkars (பூச்சட்டி & சக்கரம்)', name: 'Flower Pots Special UV Box', tamilName: 'ஸ்பெஷல் பூச்சட்டி UV பாக்ஸ்', packInfo: '10 pcs / 1 Box', mrp: 445, price: 89 },
     { id: 'gp-29', code: 'GP-029', brand: 'getpattasu', category: 'Flowerpots & Chakkars (பூச்சட்டி & சக்கரம்)', name: 'Asoka Flowerpot UV Box', tamilName: 'அசோகா பூச்சட்டி UV பாக்ஸ்', packInfo: '10 pcs / 1 Box', mrp: 520, price: 104 },
     { id: 'gp-30', code: 'GP-030', brand: 'getpattasu', category: 'Flowerpots & Chakkars (பூச்சட்டி & சக்கரம்)', name: 'Color Koti Premium UV Box', tamilName: 'கலர் கோட்டி பிரீமியம்', packInfo: '10 pcs / 1 Box', mrp: 750, price: 150 },
@@ -724,7 +728,7 @@ window.ALL_BRANDS_PRODUCTS = {
     { id: 'gp-35', code: 'GP-035', brand: 'getpattasu', category: 'Flowerpots & Chakkars (பூச்சட்டி & சக்கரம்)', name: 'Pink Super Deluxe (5 Pcs)', tamilName: 'பிங்க் சூப்பர் டீலக்ஸ்', packInfo: '5 pcs / 1 Box', mrp: 1000, price: 200 },
     { id: 'gp-36', code: 'GP-036', brand: 'getpattasu', category: 'Flowerpots & Chakkars (பூச்சட்டி & சக்கரம்)', name: 'Teensy Green Fountain (5 Pcs)', tamilName: 'டீன்ஸி கிரீன் பவுண்டன்', packInfo: '5 pcs / 1 Box', mrp: 900, price: 180 },
 
-    // GET PATTASU GROUND CHAKKARS
+    // Get Pattas GROUND CHAKKARS
     { id: 'gp-37', code: 'GP-037', brand: 'getpattasu', category: 'Flowerpots & Chakkars (பூச்சட்டி & சக்கரம்)', name: 'Ground Chakkar Big (10 Pcs)', tamilName: 'தரை சக்கரம் பெரியது', packInfo: '10 pcs / 1 Box', mrp: 215, price: 43 },
     { id: 'gp-38', code: 'GP-038', brand: 'getpattasu', category: 'Flowerpots & Chakkars (பூச்சட்டி & சக்கரம்)', name: 'Ground Chakkar Deluxe UV Box', tamilName: 'தரை சக்கரம் டீலக்ஸ்', packInfo: '10 pcs / 1 Box', mrp: 675, price: 135 },
     { id: 'gp-39', code: 'GP-039', brand: 'getpattasu', category: 'Flowerpots & Chakkars (பூச்சட்டி & சக்கரம்)', name: 'Wire Chakkra (10 Pcs)', tamilName: 'ஒயர் சக்கரம்', packInfo: '10 pcs / 1 Box', mrp: 750, price: 150 },
@@ -733,7 +737,7 @@ window.ALL_BRANDS_PRODUCTS = {
     { id: 'gp-42', code: 'GP-042', brand: 'getpattasu', category: 'Flowerpots & Chakkars (பூச்சட்டி & சக்கரம்)', name: 'Wizz Chak (5 Pcs)', tamilName: 'விஸ் சக் சுழலி', packInfo: '5 pcs / 1 Box', mrp: 700, price: 140 },
     { id: 'gp-43', code: 'GP-043', brand: 'getpattasu', category: 'Flowerpots & Chakkars (பூச்சட்டி & சக்கரம்)', name: 'Disco Wheel (5 Pcs)', tamilName: 'டிஸ்கோ வீல்', packInfo: '5 pcs / 1 Box', mrp: 370, price: 74 },
 
-    // GET PATTASU KIDS & NOVELTY
+    // Get Pattas KIDS & NOVELTY
     { id: 'gp-44', code: 'GP-044', brand: 'getpattasu', category: 'Kids & Novelty Zone (கிட்ஸ் நாவல்டி)', name: '1.5" Twinkling Star', tamilName: '1.5" சாட்டை', packInfo: '10 pcs / 1 Box', mrp: 150, price: 30 },
     { id: 'gp-45', code: 'GP-045', brand: 'getpattasu', category: 'Kids & Novelty Zone (கிட்ஸ் நாவல்டி)', name: '4" Deluxe Twinkling Star', tamilName: '4" டீலக்ஸ் சாட்டை', packInfo: '10 pcs / 1 Box', mrp: 325, price: 65 },
     { id: 'gp-46', code: 'GP-046', brand: 'getpattasu', category: 'Kids & Novelty Zone (கிட்ஸ் நாவல்டி)', name: 'Butterfly (5 Pcs)', tamilName: 'பட்டர்பிளை வண்ண வெடி', packInfo: '5 pcs / 1 Box', mrp: 350, price: 70 },
@@ -752,7 +756,7 @@ window.ALL_BRANDS_PRODUCTS = {
     { id: 'gp-59', code: 'GP-059', brand: 'getpattasu', category: 'Kids & Novelty Zone (கிட்ஸ் நாவல்டி)', name: 'SIMBA Lion (2 Pcs)', tamilName: 'சிம்பா லயன்', packInfo: '2 pcs / 1 Box', mrp: 800, price: 160 },
     { id: 'gp-60', code: 'GP-060', brand: 'getpattasu', category: 'Kids & Novelty Zone (கிட்ஸ் நாவல்டி)', name: 'Pistachio Fountain (1 Pc)', tamilName: 'பிஸ்தா பவுண்டன்', packInfo: '1 pc / 1 Box', mrp: 2550, price: 510 },
 
-    // GET PATTASU GUNS & PENCILS
+    // Get Pattas GUNS & PENCILS
     { id: 'gp-61', code: 'GP-061', brand: 'getpattasu', category: 'Guns & Pencils (துப்பாக்கி & பென்சில்)', name: 'Sony Pirates Gun with Ring', tamilName: 'சோனி பைரேட்ஸ் துப்பாக்கி', packInfo: '1 pc / 1 Box', mrp: 1250, price: 250 },
     { id: 'gp-62', code: 'GP-062', brand: 'getpattasu', category: 'Guns & Pencils (துப்பாக்கி & பென்சில்)', name: 'Lollipop Pencil (5 Pcs)', tamilName: 'லாலிபாப் பென்சில்', packInfo: '5 pcs / 1 Box', mrp: 800, price: 160 },
     { id: 'gp-63', code: 'GP-063', brand: 'getpattasu', category: 'Guns & Pencils (துப்பாக்கி & பென்சில்)', name: 'Sivakasi Pencil (5 Pcs)', tamilName: 'சிவகாசி பென்சில்', packInfo: '5 pcs / 1 Box', mrp: 700, price: 140 },
@@ -760,7 +764,7 @@ window.ALL_BRANDS_PRODUCTS = {
     { id: 'gp-65', code: 'GP-065', brand: 'getpattasu', category: 'Guns & Pencils (துப்பாக்கி & பென்சில்)', name: 'Waterfall Pencil (5 Pcs)', tamilName: 'வாட்டர்பால் பென்சில்', packInfo: '5 pcs / 1 Box', mrp: 750, price: 150 },
     { id: 'gp-66', code: 'GP-066', brand: 'getpattasu', category: 'Guns & Pencils (துப்பாக்கி & பென்சில்)', name: 'Cylinder Smoke (1 Pc)', tamilName: 'சிலிண்டர் ஸ்மோக்', packInfo: '1 pc / 1 Box', mrp: 750, price: 150 },
 
-    // GET PATTASU ROCKETS & BIJILI
+    // Get Pattas ROCKETS & BIJILI
     { id: 'gp-67', code: 'GP-067', brand: 'getpattasu', category: 'Rockets & Bijili (ராக்கெட் & பிஜிலி)', name: 'Colour Rocket (10 Pcs)', tamilName: 'கலர் ராக்கெட்', packInfo: '10 pcs / 1 Box', mrp: 300, price: 60 },
     { id: 'gp-68', code: 'GP-068', brand: 'getpattasu', category: 'Rockets & Bijili (ராக்கெட் & பிஜிலி)', name: 'Rocket Bomb (10 Pcs)', tamilName: 'ராக்கெட் பாம்', packInfo: '10 pcs / 1 Box', mrp: 330, price: 66 },
     { id: 'gp-69', code: 'GP-069', brand: 'getpattasu', category: 'Rockets & Bijili (ராக்கெட் & பிஜிலி)', name: 'Musical Rocket (10 Pcs)', tamilName: 'மியூசிக்கல் ராக்கெட்', packInfo: '10 pcs / 1 Box', mrp: 750, price: 150 },
@@ -771,7 +775,7 @@ window.ALL_BRANDS_PRODUCTS = {
     { id: 'gp-74', code: 'GP-074', brand: 'getpattasu', category: 'Rockets & Bijili (ராக்கெட் & பிஜிலி)', name: 'Old is Gold Bijili (25 Pcs)', tamilName: 'ஓல்ட் இஸ் கோல்ட் பிஜிலி', packInfo: '25 pcs / 1 Box', mrp: 1000, price: 200 },
     { id: 'gp-75', code: 'GP-075', brand: 'getpattasu', category: 'Rockets & Bijili (ராக்கெட் & பிஜிலி)', name: 'Robin Super DLX Matches', tamilName: 'ராபின் சூப்பர் டீலக்ஸ் குச்சி', packInfo: '10 pcs / 1 Box', mrp: 550, price: 110 },
 
-    // GET PATTASU SOUND CRACKERS
+    // Get Pattas SOUND CRACKERS
     { id: 'gp-76', code: 'GP-076', brand: 'getpattasu', category: 'Sound & Sky Shells (வெடி & வான வெடி)', name: '2" Lakshmi Crackers (10 Pcs)', tamilName: '2" லட்சுமி வெடி (10 Pcs)', packInfo: '10 pcs / 1 Box', mrp: 100, price: 20 },
     { id: 'gp-77', code: 'GP-077', brand: 'getpattasu', category: 'Sound & Sky Shells (வெடி & வான வெடி)', name: 'Atom Bomb (5 Pcs)', tamilName: 'அணு குண்டு (5 Pcs)', packInfo: '5 pcs / 1 Box', mrp: 750, price: 150 },
     { id: 'gp-78', code: 'GP-078', brand: 'getpattasu', category: 'Sound & Sky Shells (வெடி & வான வெடி)', name: 'Thunder King (5 Pcs)', tamilName: 'தண்டர் கிங் (5 Pcs)', packInfo: '5 pcs / 1 Box', mrp: 500, price: 100 },
@@ -784,7 +788,7 @@ window.ALL_BRANDS_PRODUCTS = {
     { id: 'gp-85', code: 'GP-085', brand: 'getpattasu', category: 'Sound & Sky Shells (வெடி & வான வெடி)', name: '240 Shot Mega Sky Show', tamilName: '240 ஷாட்ஸ் மெகா ஸ்கை ஷோ', packInfo: '1 pc / 1 Box', mrp: 18000, price: 3600 },
     { id: 'gp-86', code: 'GP-086', brand: 'getpattasu', category: 'Sound & Sky Shells (வெடி & வான வெடி)', name: '10x10 Dhoni Shots Special', tamilName: '10x10 தோனி ஷாட்ஸ் ஸ்பெஷல்', packInfo: '1 pc / 1 Box', mrp: 16000, price: 3200 },
 
-    // GET PATTASU SPECIAL FOUNTAINS
+    // Get Pattas SPECIAL FOUNTAINS
     { id: 'gp-87', code: 'GP-087', brand: 'getpattasu', category: 'Special Fountains (ஸ்பெஷல் பவுண்டன்)', name: 'Golden Spring Fountain', tamilName: 'கோல்டன் ஸ்பிரிங் பவுண்டன்', packInfo: '1 pc / 1 Box', mrp: 750, price: 150 },
     { id: 'gp-88', code: 'GP-088', brand: 'getpattasu', category: 'Special Fountains (ஸ்பெஷல் பவுண்டன்)', name: 'Costa White Popcorn Fountain', tamilName: 'கோஸ்டா வெள்ளை பாப்கார்ன்', packInfo: '1 pc / 1 Box', mrp: 750, price: 150 },
     { id: 'gp-89', code: 'GP-089', brand: 'getpattasu', category: 'Special Fountains (ஸ்பெஷல் பவுண்டன்)', name: 'Tango Golden Popcorn Fountain', tamilName: 'டாங்கோ தங்க பாப்கார்ன்', packInfo: '1 pc / 1 Box', mrp: 750, price: 150 },
@@ -798,7 +802,7 @@ window.ALL_BRANDS_PRODUCTS = {
     { id: 'gp-97', code: 'GP-097', brand: 'getpattasu', category: 'Special Fountains (ஸ்பெஷல் பவுண்டன்)', name: 'Phoenix Rising Fountain', tamilName: 'பீனிக்ஸ் ரைசிங் பவுண்டன்', packInfo: '1 pc / 1 Box', mrp: 1500, price: 300 },
     { id: 'gp-98', code: 'GP-098', brand: 'getpattasu', category: 'Special Fountains (ஸ்பெஷல் பவுண்டன்)', name: 'Blue Comet Fountain', tamilName: 'பிளூ கோமட் பவுண்டன்', packInfo: '1 pc / 1 Box', mrp: 1100, price: 220 },
 
-    // GET PATTASU COLOUR SMOKE
+    // Get Pattas COLOUR SMOKE
     { id: 'gp-99', code: 'GP-099', brand: 'getpattasu', category: 'Colour Smoke (வண்ண புகை)', name: 'Get pattas Colour Smoke', tamilName: 'சிவப்பு வண்ண புகை', packInfo: '1 pc / 1 Box', mrp: 150, price: 30 },
     { id: 'gp-100', code: 'GP-100', brand: 'getpattasu', category: 'Colour Smoke (வண்ண புகை)', name: 'Green Colour Smoke', tamilName: 'பச்சை வண்ண புகை', packInfo: '1 pc / 1 Box', mrp: 150, price: 30 },
     { id: 'gp-101', code: 'GP-101', brand: 'getpattasu', category: 'Colour Smoke (வண்ண புகை)', name: 'Blue Colour Smoke', tamilName: 'நீல வண்ண புகை', packInfo: '1 pc / 1 Box', mrp: 150, price: 30 },
@@ -806,12 +810,12 @@ window.ALL_BRANDS_PRODUCTS = {
     { id: 'gp-103', code: 'GP-103', brand: 'getpattasu', category: 'Colour Smoke (வண்ண புகை)', name: 'Tricolour Smoke Pack (3 Pcs)', tamilName: 'மூவர்ண புகை பேக்', packInfo: '3 pcs / 1 Box', mrp: 450, price: 90 },
     { id: 'gp-104', code: 'GP-104', brand: 'getpattasu', category: 'Colour Smoke (வண்ண புகை)', name: 'Mega Colour Smoke (5 Pcs)', tamilName: 'மெகா வண்ண புகை', packInfo: '5 pcs / 1 Box', mrp: 750, price: 150 },
 
-    // GET PATTASU PHOOLJHADI
+    // Get Pattas PHOOLJHADI
     { id: 'gp-105', code: 'GP-105', brand: 'getpattasu', category: 'Super Value Sparklers (மத்தாப்பு)', name: '7 cm Phooljhadi (100 Pcs)', tamilName: '7 செ.மீ ஃபூல்ஜாடி (100 Pcs)', packInfo: '100 pcs / 1 Box', mrp: 175, price: 35 },
     { id: 'gp-106', code: 'GP-106', brand: 'getpattasu', category: 'Super Value Sparklers (மத்தாப்பு)', name: '10 cm Phooljhadi (100 Pcs)', tamilName: '10 செ.மீ ஃபூல்ஜாடி (100 Pcs)', packInfo: '100 pcs / 1 Box', mrp: 350, price: 70 },
     { id: 'gp-107', code: 'GP-107', brand: 'getpattasu', category: 'Super Value Sparklers (மத்தாப்பு)', name: '15 cm Phooljhadi (50 Pcs)', tamilName: '15 செ.மீ ஃபூல்ஜாடி (50 Pcs)', packInfo: '50 pcs / 1 Box', mrp: 500, price: 100 },
 
-    // GET PATTASU AERIAL SHELLS
+    // Get Pattas AERIAL SHELLS
     { id: 'gp-108', code: 'GP-108', brand: 'getpattasu', category: 'Sound & Sky Shells (வெடி & வான வெடி)', name: 'Get pattas Aerial Shell (5 Pcs)', tamilName: 'சிவப்பு ஏரியல் ஷெல்', packInfo: '5 pcs / 1 Box', mrp: 500, price: 100 },
     { id: 'gp-109', code: 'GP-109', brand: 'getpattasu', category: 'Sound & Sky Shells (வெடி & வான வெடி)', name: 'Gold Glitter Aerial (5 Pcs)', tamilName: 'கோல்ட் கிளிட்டர் ஏரியல்', packInfo: '5 pcs / 1 Box', mrp: 600, price: 120 },
     { id: 'gp-110', code: 'GP-110', brand: 'getpattasu', category: 'Sound & Sky Shells (வெடி & வான வெடி)', name: 'Brocade Crown Shell (3 Pcs)', tamilName: 'ப்ரோகேட் க்ரவுன் ஷெல்', packInfo: '3 pcs / 1 Box', mrp: 900, price: 180 },
@@ -819,10 +823,10 @@ window.ALL_BRANDS_PRODUCTS = {
     { id: 'gp-112', code: 'GP-112', brand: 'getpattasu', category: 'Sound & Sky Shells (வெடி & வான வெடி)', name: '16 Shot Pyro Burst', tamilName: '16 ஷாட்ஸ் பைரோ பர்ஸ்ட்', packInfo: '1 pc / 1 Box', mrp: 1100, price: 220 },
     { id: 'gp-113', code: 'GP-113', brand: 'getpattasu', category: 'Sound & Sky Shells (வெடி & வான வெடி)', name: '25 Shot Colourful Sky', tamilName: '25 ஷாட்ஸ் கலர்ஃபுல் ஸ்கை', packInfo: '1 pc / 1 Box', mrp: 1800, price: 360 },
 
-    // GET PATTASU WALI
+    // Get Pattas WALI
     { id: 'gp-114', code: 'GP-114', brand: 'getpattasu', category: 'Sound & Sky Shells (வெடி & வான வெடி)', name: '5000 Wali Mega Garland', tamilName: '5000 வாலி மெகா சரவெடி', packInfo: '1 pc / 1 Box', mrp: 5000, price: 1000 },
 
-    // GET PATTASU GIFT BOXES EXTENDED
+    // Get Pattas GIFT BOXES EXTENDED
     { id: 'gp-115', code: 'GP-115', brand: 'getpattasu', category: 'Bumper Family Gift Boxes (காம்போ பாக்ஸ்)', name: 'GP Starter Box (16 Items)', tamilName: 'GP ஸ்டார்டர் பாக்ஸ் (16 பொருட்கள்)', packInfo: '1 Box', mrp: 1100, price: 220 },
     { id: 'gp-116', code: 'GP-116', brand: 'getpattasu', category: 'Bumper Family Gift Boxes (காம்போ பாக்ஸ்)', name: 'GP Mini Festival Box (21 Items)', tamilName: 'GP மினி பெஸ்டிவல் பாக்ஸ் (21 பொருட்கள்)', packInfo: '1 Box', mrp: 1500, price: 300 },
     { id: 'gp-117', code: 'GP-117', brand: 'getpattasu', category: 'Bumper Family Gift Boxes (காம்போ பாக்ஸ்)', name: 'GP Premium Combo (26 Items)', tamilName: 'GP பிரீமியம் காம்போ (26 பொருட்கள்)', packInfo: '1 Box', mrp: 2000, price: 400 },
@@ -836,7 +840,7 @@ window.ALL_BRANDS_PRODUCTS = {
     { id: 'gp-125', code: 'GP-125', brand: 'getpattasu', category: 'Bumper Family Gift Boxes (காம்போ பாக்ஸ்)', name: 'GP Anantham Mega Family Pack (75 Items)', tamilName: 'GP ஆனந்தம் மெகா பேமிலி பேக்', packInfo: '1 Grand Box', mrp: 50000, price: 10000 },
     { id: 'gp-126', code: 'GP-126', brand: 'getpattasu', category: 'Bumper Family Gift Boxes (காம்போ பாக்ஸ்)', name: 'GP Kids Special Hamper (25 Items)', tamilName: 'GP கிட்ஸ் ஸ்பெஷல் ஹேம்பர்', packInfo: '1 Box', mrp: 1750, price: 350 },
 
-    // GET PATTASU SPECIAL EXTRA
+    // Get Pattas SPECIAL EXTRA
     { id: 'gp-127', code: 'GP-127', brand: 'getpattasu', category: 'Kids & Novelty Zone (கிட்ஸ் நாவல்டி)', name: 'DRAGONS Pyro (2 Pcs)', tamilName: 'டிராகன்ஸ் பவுண்டன்', packInfo: '2 pcs / 1 Box', mrp: 800, price: 160 },
     { id: 'gp-128', code: 'GP-128', brand: 'getpattasu', category: 'Kids & Novelty Zone (கிட்ஸ் நாவல்டி)', name: 'MANNY Character (2 Pcs)', tamilName: 'மேனி கார்ட்டூன் வெடி', packInfo: '2 pcs / 1 Box', mrp: 800, price: 160 },
     { id: 'gp-129', code: 'GP-129', brand: 'getpattasu', category: 'Kids & Novelty Zone (கிட்ஸ் நாவல்டி)', name: 'BUJI Special (2 Pcs)', tamilName: 'புஜ்ஜி கார்ட்டூன்', packInfo: '2 pcs / 1 Box', mrp: 800, price: 160 },

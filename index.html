@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <!-- Stylesheet -->
-    <link rel="stylesheet" href="styles.css?v=33">
+    <link rel="stylesheet" href="styles.css?v=38">
 </head>
 
 <body data-brand="getpattasu">
@@ -69,10 +69,9 @@
                 <a href="#contact" class="nav-link" onclick="closeMobileMenu();">Contact</a>
 
                 <div class="mobile-menu-actions">
-                    <a href="https://wa.me/918610451118?text=Hi%20Get%20Pattas!%20I%20want%20to%20know%20more%20about%20crackers%20booking."
-                        target="_blank" class="btn btn-whatsapp full-width" onclick="closeMobileMenu()">
+                    <button type="button" class="btn btn-whatsapp full-width" onclick="closeMobileMenu(); sendWhatsAppDirectOrder();">
                         <span><i class="fa-brands fa-whatsapp"></i> WhatsApp Order</span>
-                    </a>
+                    </button>
                     <a href="tel:+918610451118" class="btn btn-primary full-width"
                         style="background: linear-gradient(135deg, var(--primary-red), #b91c1c); font-weight: 700;">
                         <span><i class="fa-solid fa-phone"></i> Call +91 86104 51118</span>
@@ -142,7 +141,7 @@
 
             <!-- Section Header: CenteGet pattas pattas -->
             <div class="section-header text-center about-header-center">
-                <span class="section-tag"><i class="fa-solid fa-sparkles"></i> About Get Pattasu</span>
+                <span class="section-tag"><i class="fa-solid fa-sparkles"></i> About Get Pattas</span>
                 <h2 class="section-title hide-on-desktop">Direct From Sivakasi Factory To Your Doorstep</h2>
                 <p class="section-subtitle hide-on-desktop">Sivakasi's premier direct-from-factory fireworks
                     manufacturer with 15+ years of pyro excellence</p>
@@ -164,7 +163,8 @@
                         Welcome to <strong>Get Pattas Kadai</strong>, Sivakasi’s trusted direct-from-factory fireworks
                         manufacturer dedicated to bringing festive joy, authentic celebration, and brilliant
                         illumination to homes across India. We specialize in 100% eco-friendly <strong>CSIR-NEERI & PESO
-                            Certified Green Crackers</strong>, manufactuGet pattas pattas using superior-grade pyrotechnic
+                            Certified Green Crackers</strong>, manufactuGet pattas pattas using superior-grade
+                        pyrotechnic
                         compositions that produce 30–35% less smoke and zero hazardous chemicals like Barium Nitrate. By
                         eliminating retail middlemen, commission agents, and distributor markups, we deliver genuine
                         Sivakasi factory wholesale rates with up to <strong>Flat 80% Discount</strong> across our
@@ -344,7 +344,8 @@
                                 <span class="review-date">2 weeks ago</span>
                             </div>
                             <h5 class="review-headline">"Real Sivakasi Wholesale - Flat 80% Off"</h5>
-                            <p class="review-text">"CompaGet pattas pattas local retail prices with Get Pattas Kadai, saved over
+                            <p class="review-text">"CompaGet pattas pattas local retail prices with Get Pattas Kadai,
+                                saved over
                                 ₹4,000 for my family Diwali purchase. Direct from Sivakasi factory is the best
                                 decision!"</p>
                         </div>
@@ -549,11 +550,11 @@
                 <!-- Col 1: Brand & Certification -->
                 <div class="footer-col brand-col">
                     <a href="#hero" class="brand-logo footer-logo">
-                        <img src="assets/moblie_getpattas_banner_main.jpeg" alt="Get Pattas Kadai Logo"
+                        <img src="assets/logo.jpg" alt="Get Pattas Kadai Logo"
                             class="brand-logo-img">
                         <div class="logo-text">
                             <span class="brand-name"><span class="brand-get">GET</span> <span
-                                    class="highlight">PATTASU</span> <span class="kadai-tag">KADAI</span></span>
+                                    class="highlight">PATTAS</span> <span class="kadai-tag">KADAI</span></span>
                             <span class="brand-sub">Sivakasi Factory Wholesale</span>
                         </div>
                     </a>
@@ -574,7 +575,7 @@
                     <h4 class="footer-heading">Quick Links</h4>
                     <ul class="footer-links">
                         <li><a href="#hero">Home</a></li>
-                        <li><a href="#about">About Get Pattasu</a></li>
+                        <li><a href="#about">About Get Pattas</a></li>
                         <li><a href="#safety">Safety Guidelines</a></li>
                         <li><a href="#reviews">Google Reviews</a></li>
                         <li><a href="#contact">Contact Store</a></li>
@@ -685,7 +686,8 @@
             <div class="policy-modal-body">
                 <p><strong>1. Legal Compliance & Supreme Court Guidelines:</strong> All crackers sold by <strong>Get
                         Pattas Kadai</strong> are 100% authentic <strong>CSIR-NEERI Certified Green Crackers</strong>
-                    manufactuGet pattas pattas in Sivakasi in full compliance with the Supreme Court of India directives and PESO
+                    manufactuGet pattas pattas in Sivakasi in full compliance with the Supreme Court of India directives
+                    and PESO
                     (Petroleum and Explosives Safety Organization) standards.</p>
 
                 <p><strong>2. Age Restriction (18+ Only):</strong> You must be at least <strong>18 years of age</strong>
@@ -794,8 +796,9 @@
     <div class="toast-container" id="toastContainer"></div>
 
     <!-- Scripts -->
-    <script src="catalogData.js?v=2"></script>
-    <script src="app.js?v=32"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="catalogData.js?v=3"></script>
+    <script src="app.js?v=35"></script>
 </body>
 
 </html>

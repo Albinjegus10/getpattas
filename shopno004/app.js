@@ -1,8 +1,8 @@
 /* ==========================================================================
-   GET PATTASU - MULTI-BRAND SIVAKASI FIREWORKS WEB APPLICATION
+   Get Pattas - MULTI-BRAND SIVAKASI FIREWORKS WEB APPLICATION
    References: kannancrackers.net & jallikattucrackers.in
    Features:
-   - 4-Brand Instant Switcher (Get pattas Crackers, Get pattas  Crackers, Get pattas , Get Pattasu)
+   - 4-Brand Instant Switcher (Get pattas Crackers, Get pattas  Crackers, Get pattas , Get Pattas)
    - Clean Full-Width Wholesale Pricelist Table (No sidebar filters, No photo grid)
    - One-touch fast increment/decrement quantity steppers with live row & sticky totals
    - Category Jump Pills & Real-time English/Tamil Search
@@ -128,7 +128,7 @@ function switchBrand(brandSlug) {
   selectBrand(brandSlug);
 }
 
-function updateBrandUI(brandSlug) {
+function updateBrandUI(brandSlug, isSwitch = false) {
   const brand = window.BRANDS_CONFIG[brandSlug] || window.BRANDS_CONFIG['getpattasu'] || window.BRANDS_CONFIG['muthu'];
   document.body.dataset.brand = brandSlug;
 
@@ -147,7 +147,7 @@ function updateBrandUI(brandSlug) {
       title: "Get pattas 's Special Crackers",
       tagline: 'World-Famous Get pattas  Special Fountains, Popcorn Crackers, Kungfu Panda 2-Step & High-Altitude Pyro Sky Shells',
       loc: '📍 Bypass Road, Sivakasi Factory Zone',
-      phone: '+91 86104 51118',
+      phone: '+91 94431 22889',
       min: '₹3,000',
       page: '/getpattas/shopno002',
       siteName: "Get pattas 's Store"
@@ -167,20 +167,20 @@ function updateBrandUI(brandSlug) {
       title: 'The Get pattas  Sivakasi',
       tagline: 'Celebrate Bigger, Save More! Direct Sivakasi Up to 90% Off • Complete 127 Items Order Table',
       loc: '📍 Sivakasi Wholesale Hub, Tamil Nadu',
-      phone: '+91 86104 51118',
+      phone: '+91 95661 59113',
       min: '₹3,000',
       page: '/getpattas/shopno003',
       siteName: "Get pattas Store"
     },
     'getpattasu': {
       tag: '⭐ ALL SIVAKASI BRANDS MEGA STORE',
-      title: 'Get Pattasu Kadai',
+      title: 'Get Pattas Kadai',
       tagline: 'Single Window for Muthu, Get pattas  & Get pattas  • Curated Family Hampers • Flat 80% Off Direct Factory Rates',
       loc: '📍 12/4B Sivakasi Factory Zone, Tamil Nadu',
       phone: '+91 86104 51118',
       min: '₹3,000',
       page: '/getpattas/shopno004',
-      siteName: "Get Pattasu Master Store"
+      siteName: "Get Pattas Master Store"
     }
   };
 
@@ -204,18 +204,26 @@ function updateBrandUI(brandSlug) {
   }
 
   // 2. Active Brand Banner Strip in Wholesale Table Section
+  // Preserve custom HTML written in index.html (shop number, custom title, badge, phone, tagline)
+  // Only overwrite if dynamic brand switch is explicitly triggered or if DOM element is empty
   const badgeEl = document.getElementById('currentBrandBadge');
   const titleEl = document.getElementById('currentBrandTitle');
   const taglineEl = document.getElementById('currentBrandTagline');
   const phoneEl = document.getElementById('currentBrandPhone');
 
-  if (badgeEl) {
+  if (badgeEl && (isSwitch || !badgeEl.textContent.trim())) {
     const icon = brandSlug === 'red' ? 'fa-fire-flame-curved' : (brandSlug === 'Get pattas ' ? 'fa-burst' : 'fa-wand-magic-sparkles');
     badgeEl.innerHTML = `<i class="fa-solid ${icon}"></i> ${brand.badge}`;
   }
-  if (titleEl) titleEl.innerText = `${brand.name} - Wholesale Price List`;
-  if (taglineEl) taglineEl.innerText = `${brand.tagline} • Single-Touch Quantity Order Table`;
-  if (phoneEl) phoneEl.innerText = brand.phone;
+  if (titleEl && (isSwitch || !titleEl.textContent.trim())) {
+    titleEl.innerText = brand.wholesaleTitle || `${brand.name} - Wholesale Price List`;
+  }
+  if (taglineEl && (isSwitch || !taglineEl.textContent.trim())) {
+    taglineEl.innerText = brand.tagline || `${brand.name} • Single-Touch Quantity Order Table`;
+  }
+  if (phoneEl && (isSwitch || !phoneEl.textContent.trim())) {
+    phoneEl.innerText = brand.phone;
+  }
 }
 
 // ==========================================
@@ -546,6 +554,11 @@ function setQtyDirect(productId, val) {
   saveCartToStorage();
   updateStickySummaryBar();
   updateCartDrawerUI();
+
+  const coModal = document.getElementById('checkoutModalOverlay');
+  if (coModal && coModal.classList.contains('active')) {
+    populateCheckoutSummary();
+  }
 }
 
 function updateStickySummaryBar() {
@@ -775,31 +788,63 @@ function filterByCategory(catSlug) {
 // WHATSAPP DIRECT ORDER GENERATOR
 // ==========================================
 function sendWhatsAppDirectOrder(existingOrder = null) {
-  if (cart.length === 0 && !existingOrder) {
-    showToast('⚠️ Please select at least 1 cracker item to order!');
-    const tableEl = document.getElementById('products');
+  const brand = (window.BRANDS_CONFIG && window.BRANDS_CONFIG[currentBrand]) || window.BRANDS_CONFIG?.['ayyan'] || { name: 'Get Pattas Kadai', themeColor: '#ea580c' };
+  const brandColor = brand.themeColor || '#ea580c';
+  const orderItems = existingOrder ? existingOrder.items : cart;
+
+  if ((!orderItems || orderItems.length === 0) && !existingOrder) {
+    if (window.Swal) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Minimum Order Value: ₹3,000',
+        html: `Your cart is empty!<br>Minimum order value for WhatsApp Order is <b>₹3,000</b>.<br>Please select cracker items to proceed.`,
+        confirmButtonColor: brandColor,
+        confirmButtonText: '<i class="fas fa-cart-plus"></i> Select Crackers'
+      });
+    } else {
+      alert('⚠️ Your cart is empty! Minimum order value for WhatsApp Order is ₹3,000. Please select cracker items.');
+    }
+    const tableEl = document.getElementById('products') || document.getElementById('priceListContainer');
     if (tableEl) tableEl.scrollIntoView({ behavior: 'smooth' });
     return;
   }
 
-  const brand = window.BRANDS_CONFIG[currentBrand] || window.BRANDS_CONFIG['muthu'];
   let totalBoxes = 0;
   let netTotal = 0;
   let totalMrp = 0;
 
-  const orderItems = existingOrder ? existingOrder.items : cart;
+  orderItems.forEach((item) => {
+    const rowTot = (item.price || 0) * (item.qty || 1);
+    totalBoxes += (item.qty || 1);
+    netTotal += rowTot;
+    totalMrp += (item.mrp || item.price || 0) * (item.qty || 1);
+  });
 
-  let message = `💥 *GET PATTASU KADAI - DIWALI WHOLESALE ORDER ESTIMATE*\n`;
+  if (netTotal < 3000 && !existingOrder) {
+    const diff = 3000 - netTotal;
+    if (window.Swal) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Minimum Order Value: ₹3,000',
+        html: `Your current order total is <b>₹${netTotal.toLocaleString('en-IN')}</b>.<br>WhatsApp Order requires a minimum purchase of <b>₹3,000</b>.<br>Please add <b>₹${diff.toLocaleString('en-IN')}</b> more crackers to proceed with WhatsApp Order!`,
+        confirmButtonColor: brandColor,
+        confirmButtonText: '<i class="fas fa-plus-circle"></i> Add More Items'
+      });
+    } else {
+      alert(`⚠️ Minimum WhatsApp order value is ₹3,000.\nYour current total is ₹${netTotal.toLocaleString('en-IN')}.\nPlease add ₹${diff.toLocaleString('en-IN')} more to proceed!`);
+    }
+    const tableEl = document.getElementById('products') || document.getElementById('priceListContainer');
+    if (tableEl) tableEl.scrollIntoView({ behavior: 'smooth' });
+    return;
+  }
+
+  let message = `💥 *Get Pattas KADAI - DIWALI WHOLESALE ORDER ESTIMATE*\n`;
   message += `🏢 *Brand:* ${brand.name}\n`;
   message += `-------------------------------------------\n`;
   message += `*ORDER ITEMS LIST:*\n`;
 
   orderItems.forEach((item, idx) => {
     const rowTot = (item.price || 0) * (item.qty || 1);
-    totalBoxes += (item.qty || 1);
-    netTotal += rowTot;
-    totalMrp += (item.mrp || item.price || 0) * (item.qty || 1);
-
     message += `${idx + 1}. *${item.name}* (${item.tamilName || ''})\n`;
     message += `   • Size/Pack: ${item.pack || item.packInfo || 'Box'}\n`;
     message += `   • Qty: *${item.qty} Boxes* × ₹${item.price} = *₹${rowTot.toLocaleString('en-IN')}*\n`;
@@ -1052,6 +1097,22 @@ function populateCheckoutSummary() {
 
   if (!previewList) return;
 
+  if (cart.length === 0) {
+    previewList.innerHTML = `
+      <div class="co-empty-state" style="text-align: center; padding: 2rem 0.5rem; color: #64748b;">
+        <span style="font-size: 2.2rem; color: #cbd5e1; display: block; margin-bottom: 0.5rem;"><i class="fa-solid fa-cart-shopping"></i></span>
+        <h5 style="font-size: 1rem; font-weight: 700; color: #1e293b; margin-bottom: 0.35rem;">Your Cart is Empty</h5>
+        <p style="font-size: 0.8rem; margin-bottom: 1rem; color: #64748b;">Add cracker items to proceed with wholesale checkout.</p>
+        <button type="button" class="btn btn-primary" onclick="closeCheckoutModal(true); (document.getElementById('products') || document.getElementById('priceListContainer'))?.scrollIntoView({behavior:'smooth'});" style="font-size: 0.82rem; padding: 0.4rem 0.9rem; border-radius: 6px;">
+          <i class="fa-solid fa-plus"></i> Select Crackers
+        </button>
+      </div>`;
+    if (subtotalEl) subtotalEl.innerText = '₹0';
+    if (grandTotalEl) grandTotalEl.innerText = '₹0';
+    updateCheckoutQrCode(0);
+    return;
+  }
+
   let netTotal = 0;
   let itemsHTML = '';
 
@@ -1059,12 +1120,22 @@ function populateCheckoutSummary() {
     const rowTot = item.price * item.qty;
     netTotal += rowTot;
     itemsHTML += `
-      <div class="co-preview-item">
+      <div class="co-preview-item" id="co-item-${item.id}">
         <div class="co-preview-info">
-          <strong>${item.name}</strong>
-          <span>${item.packInfo} × ${item.qty} Boxes</span>
+          <strong class="co-preview-name" title="${item.name}">${item.name}</strong>
+          <span class="co-preview-meta">${item.packInfo || 'Box'} • ₹${item.price} each</span>
         </div>
-        <strong class="co-preview-price">₹${rowTot.toLocaleString('en-IN')}</strong>
+        <div class="co-preview-actions">
+          <div class="co-stepper">
+            <button type="button" class="co-btn-step co-btn-minus" onclick="changeQty('${item.id}', -1)" title="Decrease quantity (less)">−</button>
+            <span class="co-qty-val">${item.qty}</span>
+            <button type="button" class="co-btn-step co-btn-plus" onclick="changeQty('${item.id}', 1)" title="Increase quantity (plus)">+</button>
+          </div>
+          <strong class="co-preview-price">₹${rowTot.toLocaleString('en-IN')}</strong>
+          <button type="button" class="co-btn-remove" onclick="clearCheckoutItem('${item.id}')" title="Remove item">
+            <i class="fa-solid fa-trash-can"></i>
+          </button>
+        </div>
       </div>`;
   });
 
@@ -1074,6 +1145,37 @@ function populateCheckoutSummary() {
 
   // Update Universal UPI QR Code for payment
   updateCheckoutQrCode(netTotal);
+}
+
+function clearCheckoutItem(productId) {
+  setQtyDirect(productId, 0);
+}
+
+function clearAllCheckoutItems() {
+  if (!cart || cart.length === 0) return;
+  if (window.Swal) {
+    Swal.fire({
+      title: 'Clear Entire Order?',
+      text: 'Are you sure you want to remove all items from your checkout list?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#ef4444',
+      cancelButtonColor: '#64748b',
+      confirmButtonText: 'Yes, Clear All'
+    }).then((res) => {
+      if (res.isConfirmed) {
+        const ids = cart.map(i => i.id);
+        ids.forEach(id => setQtyDirect(id, 0));
+        populateCheckoutSummary();
+      }
+    });
+  } else {
+    if (confirm('Are you sure you want to clear all items from your checkout list?')) {
+      const ids = cart.map(i => i.id);
+      ids.forEach(id => setQtyDirect(id, 0));
+      populateCheckoutSummary();
+    }
+  }
 }
 
 function updateCheckoutQrCode(amount) {
@@ -1399,7 +1501,7 @@ function handleCheckoutFormSubmit(e) {
     : `${currentOrigin}/invoice.html?bn=${bookingNumber}`;
 
   // 4. Construct WhatsApp Trigger Message for Store Desk
-  let waMsg = `💥 *GET PATTASU - OFFICIAL DIWALI WHOLESALE BOOKING*\n`;
+  let waMsg = `💥 *Get Pattas - OFFICIAL DIWALI WHOLESALE BOOKING*\n`;
   waMsg += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
   waMsg += `📋 *BOOKING NUMBER:* *${bookingNumber}*\n`;
   waMsg += `🏬 *Store:* Get Pattas\n`;
@@ -1823,13 +1925,24 @@ function printOrderInvoice() {
 // COMBO HAMPER BANNER SHORTCUT
 // ==========================================
 function addComboToCart(comboKey) {
-  // Add first grand combo from Get Pattasu catalog
-  const comboItem = (window.ALL_BRANDS_PRODUCTS['getpattasu'] || []).find(i => i.category.includes('Gift') || i.category.includes('Combo'));
+  // Add Grand Family Combo Pack (₹5,000)
+  let comboItem = null;
+  for (const bSlug in window.ALL_BRANDS_PRODUCTS) {
+    comboItem = window.ALL_BRANDS_PRODUCTS[bSlug].find(i => i.id === 'gp-15');
+    if (comboItem) break;
+  }
+  if (!comboItem) {
+    for (const bSlug in window.ALL_BRANDS_PRODUCTS) {
+      comboItem = window.ALL_BRANDS_PRODUCTS[bSlug].find(i => i.price === 5000 && (i.category.includes('Gift') || i.category.includes('Combo') || i.category.includes('பாக்ஸ்')));
+      if (comboItem) break;
+    }
+  }
+
   if (comboItem) {
     changeQty(comboItem.id, 1);
-    showToast(`Added ${comboItem.name} to your order!`);
+    showToast(`🎉 Added ${comboItem.name} (₹${comboItem.price.toLocaleString('en-IN')}) to your order!`);
   } else {
-    showToast('Added Diwali Family Combo Pack!');
+    showToast('🎉 Added Diwali Family Combo Pack (₹5,000)!');
   }
 }
 

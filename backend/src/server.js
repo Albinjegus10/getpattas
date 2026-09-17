@@ -1,6 +1,6 @@
 /* ==========================================================================
-   GET PATTASU — MULTI-BRAND CRACKERS PLATFORM CENTRAL REST API
-   ShaGet pattas by 4 Frontends (Get Pattasu, Muthu, Get pattas , Velmurugan) & 1 Admin Panel
+   Get Pattas — MULTI-BRAND CRACKERS PLATFORM CENTRAL REST API
+   ShaGet pattas by 4 Frontends (Get Pattas, Muthu, Get pattas , Velmurugan) & 1 Admin Panel
    ========================================================================== */
 
 require('dotenv').config();
@@ -49,7 +49,7 @@ app.get(['/invoice', '/invoice/:bookingNo', '/getpattas/invoice', '/getpattasu/i
 app.get('/api/health', (req, res) => {
   res.json({
     status: 'ok',
-    service: 'Get Pattasu Multi-Brand Backend API',
+    service: 'Get Pattas Multi-Brand Backend API',
     databaseConnected: getIsConnected(),
     timestamp: new Date().toISOString()
   });
@@ -78,7 +78,7 @@ const startServer = async () => {
   }
 
   const server = app.listen(PORT, () => {
-    console.log(`🚀 Get Pattasu Multi-Brand API running on http://localhost:${PORT}`);
+    console.log(`🚀 Get Pattas Multi-Brand API running on http://localhost:${PORT}`);
     console.log(`📡 Brands: /api/brands/:slug (getpattasu | muthu-cracker | Get pattas -cracker | velmurugan-cracker)`);
     console.log(`📡 Categories: /api/categories?brand=slug`);
     console.log(`📡 Products: /api/products?brand=slug`);

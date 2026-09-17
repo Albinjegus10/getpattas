@@ -8,7 +8,16 @@ const siteConfigSchema = new mongoose.Schema({
   heroImage: { type: String, default: 'assets/hero_banner.jpg' },
   storePhone: { type: String, default: '+91 86104 51118' },
   storeEmail: { type: String, default: 'sales@getpattas.com' },
-  storeAddress: { type: String, default: '12/4B Sivakasi Main Road, Near Factory Zone, Sivakasi, Tamil Nadu - 626123' }
+  storeAddress: { type: String, default: '12/4B Sivakasi Main Road, Near Factory Zone, Sivakasi, Tamil Nadu - 626123' },
+  // SMTP Configuration
+  smtpHost: { type: String, default: '' },
+  smtpPort: { type: Number, default: 587 },
+  smtpSecure: { type: Boolean, default: false },
+  smtpUser: { type: String, default: '' },
+  smtpPass: { type: String, default: '' },
+  smtpFrom: { type: String, default: '' },
+  smtpEnabled: { type: Boolean, default: true }
 }, { timestamps: true });
 
 module.exports = mongoose.model('SiteConfig', siteConfigSchema);
+

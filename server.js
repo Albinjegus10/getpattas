@@ -10,6 +10,7 @@ const Product = require('./models/Product');
 const Order = require('./models/Order');
 const SiteConfig = require('./models/SiteConfig');
 const User = require('./models/User');
+const nodemailer = require('nodemailer');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -35,7 +36,10 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: true,
+  credentials: true
+}));
 app.use(express.json({ limit: '10mb' }));
 // Serve Static Assets & Frontend Files
 app.use(express.static(path.join(__dirname)));
@@ -51,7 +55,7 @@ const serveShop4 = (req, res) => res.sendFile(path.join(__dirname, 'shopno004', 
 // Clean URL Routes
 app.get('/', serveIndex);
 app.get(['/admin', '/admin.html'], (req, res) => res.sendFile(path.join(__dirname, 'admin.html')));
-app.get(['/invoice', '/invoice.html'], (req, res) => res.sendFile(path.join(__dirname, 'invoice.html')));
+app.get(['/invoice', '/invoice.html', '/invoice/:bookingNo'], (req, res) => res.sendFile(path.join(__dirname, 'invoice.html')));
 app.get(['/shopno001', '/shopno001/'], serveShop1);
 app.get(['/shopno002', '/shopno002/'], serveShop2);
 app.get(['/shopno003', '/shopno003/'], serveShop3);
@@ -684,9 +688,325 @@ app.delete('/api/products/:id', async (req, res) => {
   }
 });
 
-// GET Orders (Admin)
+// ==========================================
+// SMTP EMAIL NOTIFICATION SERVICE
+// ==========================================
+async function getEmailTransporter() {
+  let host = process.env.SMTP_HOST || 'smtp.gmail.com';
+  let port = Number(process.env.SMTP_PORT) || 587;
+  let secure = process.env.SMTP_SECURE === 'true' || port === 465;
+  let user = process.env.SMTP_USER || '';
+  let pass = process.env.SMTP_PASS || '';
+  let from = process.env.SMTP_FROM || '"Get Pattas Kadai" <sales@getpattas.com>';
+
+  // Check if SiteConfig has overrides in DB
+  try {
+    if (isDbConnected) {
+      const config = await SiteConfig.findOne({ key: 'main_config' });
+      if (config) {
+        if (config.smtpHost) host = config.smtpHost;
+        if (config.smtpPort) port = Number(config.smtpPort);
+        if (config.smtpSecure !== undefined) secure = config.smtpSecure;
+        if (config.smtpUser) user = config.smtpUser;
+        if (config.smtpPass) pass = config.smtpPass;
+        if (config.smtpFrom) from = config.smtpFrom;
+      }
+    }
+  } catch (e) { }
+
+  if (!user || !pass) {
+    return { configured: false, host, port, user, from };
+  }
+
+  const transporter = nodemailer.createTransport({
+    host,
+    port,
+    secure,
+    auth: { user, pass },
+    tls: { rejectUnauthorized: false }
+  });
+
+  return { configured: true, transporter, from, host, port, user };
+}
+
+// Generate Branded HTML Email Template for Order Status Updates
+function generateOrderStatusEmailHtml(order, newStatus, previousStatus) {
+  const brandName = order.brandName || 'Get Pattas Kadai - Sivakasi Direct';
+  const orderId = order.orderId || order.bookingNumber || 'ORD-UNKNOWN';
+  const customerName = order.customerName || 'Valued Customer';
+  const totalAmount = Number(order.totalAmount || 0).toLocaleString('en-IN');
+  const items = order.items || [];
+  const phone = order.phone || '';
+  const address = order.address || 'Standard Delivery';
+
+  const statusConfig = {
+    Pending: {
+      color: '#d97706',
+      bg: '#fef3c7',
+      border: '#f59e0b',
+      icon: '⏳',
+      title: 'Order Status: Pending Verification',
+      badge: 'PENDING',
+      message: 'Thank you for placing your order with us! Your order has been recorded and is currently <strong>Pending review & payment verification</strong>. Our wholesale desk will confirm and schedule your Sivakasi crackers package shortly.'
+    },
+    Processing: {
+      color: '#2563eb',
+      bg: '#dbeafe',
+      border: '#3b82f6',
+      icon: '⚙️',
+      title: 'Great News! Order is in Processing',
+      badge: 'PROCESSING',
+      message: 'Your order is now <strong>Confirmed & Processing</strong>! Our Sivakasi factory packing team is carefully inspecting, safety-cushioning, and packaging your crackers box for safe courier/parcel dispatch.'
+    },
+    Completed: {
+      color: '#059669',
+      bg: '#d1fae5',
+      border: '#10b981',
+      icon: '🎉',
+      title: 'Hooray! Order Completed / Dispatched',
+      badge: 'COMPLETED',
+      message: 'Your crackers order has been <strong>Successfully Completed / Dispatched</strong>! Thank you for choosing us for your festive celebration. We wish you, your family, and friends a sparkling, safe, and joyous Diwali!'
+    },
+    Delivered: {
+      color: '#059669',
+      bg: '#d1fae5',
+      border: '#10b981',
+      icon: '📦',
+      title: 'Delivered & Completed',
+      badge: 'COMPLETED',
+      message: 'Your crackers order has been marked as <strong>Delivered & Completed</strong>! Thank you for shopping with Get Pattas Kadai. Have a wonderful and safe celebration!'
+    },
+    Cancelled: {
+      color: '#dc2626',
+      bg: '#fee2e2',
+      border: '#ef4444',
+      icon: '❌',
+      title: 'Order Cancelled Notice',
+      badge: 'CANCELLED',
+      message: 'Your order has been <strong>Cancelled</strong>. If you did not request this cancellation or have already transferred payment, please contact our Sivakasi WhatsApp helpline immediately with your order reference.'
+    }
+  };
+
+  const statusInfo = statusConfig[newStatus] || {
+    color: '#475569',
+    bg: '#f1f5f9',
+    border: '#94a3b8',
+    icon: 'ℹ️',
+    title: `Order Status Updated: ${newStatus}`,
+    badge: newStatus.toUpperCase(),
+    message: `The status of your order #${orderId} has been updated to <strong>${newStatus}</strong>.`
+  };
+
+  const itemsRows = items.map((item, idx) => `
+    <tr style="border-bottom: 1px solid #e2e8f0;">
+      <td style="padding: 10px 12px; font-size: 13px; color: #334155;">${idx + 1}</td>
+      <td style="padding: 10px 12px; font-size: 13px; color: #0f172a; font-weight: 600;">
+        ${item.name || 'Crackers Item'}
+        ${item.tamilName ? `<br><small style="color: #64748b; font-weight: normal;">${item.tamilName}</small>` : ''}
+        ${item.pack ? `<span style="display:inline-block; margin-left:6px; font-size:11px; padding:2px 6px; background:#f1f5f9; border-radius:4px; color:#475569;">${item.pack}</span>` : ''}
+      </td>
+      <td style="padding: 10px 12px; font-size: 13px; color: #334155; text-align: center;">${item.qty || 1}</td>
+      <td style="padding: 10px 12px; font-size: 13px; color: #334155; text-align: right;">₹${(item.price || 0).toLocaleString('en-IN')}</td>
+      <td style="padding: 10px 12px; font-size: 13px; color: #0f172a; font-weight: 700; text-align: right;">₹${((item.price || 0) * (item.qty || 1)).toLocaleString('en-IN')}</td>
+    </tr>
+  `).join('');
+
+  return `
+  <!DOCTYPE html>
+  <html>
+  <head>
+    <meta charset="utf-8">
+    <title>Order Status Update - ${orderId}</title>
+    <style>
+      body { margin: 0; padding: 0; background-color: #f8fafc; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+      .email-container { max-width: 600px; margin: 20px auto; background: #ffffff; border-radius: 12px; overflow: hidden; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
+      .email-header { background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #b91c1c 100%); padding: 32px 24px; text-align: center; color: #ffffff; }
+      .brand-title { font-size: 22px; font-weight: 800; letter-spacing: 0.5px; margin: 0; color: #fef08a; }
+      .brand-sub { font-size: 12px; color: #e2e8f0; margin-top: 6px; letter-spacing: 1px; text-transform: uppercase; }
+      .email-body { padding: 28px 24px; }
+      .status-box { background: ${statusInfo.bg}; border: 2px solid ${statusInfo.border}; border-radius: 10px; padding: 18px 20px; margin-bottom: 24px; }
+      .status-badge { display: inline-block; background: ${statusInfo.color}; color: #ffffff; font-size: 12px; font-weight: 800; padding: 4px 12px; border-radius: 20px; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 10px; }
+      .status-title { font-size: 18px; font-weight: 700; color: #0f172a; margin: 0 0 8px 0; }
+      .status-desc { font-size: 14px; color: #334155; line-height: 1.5; margin: 0; }
+      .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px; background: #f8fafc; padding: 16px; border-radius: 8px; border: 1px solid #e2e8f0; }
+      .info-item { font-size: 13px; line-height: 1.4; }
+      .info-label { color: #64748b; font-size: 11px; text-transform: uppercase; font-weight: 700; display: block; margin-bottom: 2px; }
+      .info-val { color: #0f172a; font-weight: 700; }
+      .items-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+      .items-table th { background: #f1f5f9; color: #475569; font-size: 11px; font-weight: 700; text-transform: uppercase; padding: 10px 12px; text-align: left; }
+      .btn-cta { display: inline-block; background: #2563eb; color: #ffffff !important; text-decoration: none; padding: 12px 24px; font-size: 14px; font-weight: 700; border-radius: 8px; text-align: center; }
+      .btn-wa { display: inline-block; background: #16a34a; color: #ffffff !important; text-decoration: none; padding: 12px 24px; font-size: 14px; font-weight: 700; border-radius: 8px; text-align: center; margin-left: 10px; }
+      .email-footer { background: #f8fafc; border-top: 1px solid #e2e8f0; padding: 20px 24px; text-align: center; font-size: 12px; color: #64748b; }
+    </style>
+  </head>
+  <body>
+    <div class="email-container">
+      <!-- Header -->
+      <div class="email-header">
+        <div style="font-size: 32px; margin-bottom: 8px;">🧨💥</div>
+        <h1 class="brand-title">${brandName}</h1>
+        <div class="brand-sub">Sivakasi Direct Online Fireworks & Crackers Booking</div>
+      </div>
+
+      <!-- Body -->
+      <div class="email-body">
+        <p style="font-size: 15px; color: #0f172a; margin-top: 0;">Dear <strong>${customerName}</strong>,</p>
+
+        <!-- Status Box -->
+        <div class="status-box">
+          <div class="status-badge">${statusInfo.icon} ${statusInfo.badge}</div>
+          <h2 class="status-title">${statusInfo.title}</h2>
+          <p class="status-desc">${statusInfo.message}</p>
+        </div>
+
+        <!-- Order Summary Details -->
+        <table style="width:100%; margin-bottom:20px; border-collapse:collapse; background:#f8fafc; border-radius:8px; border:1px solid #e2e8f0;">
+          <tr>
+            <td style="padding:12px 16px; width:50%; border-right:1px solid #e2e8f0; border-bottom:1px solid #e2e8f0;">
+              <span style="display:block; font-size:11px; text-transform:uppercase; color:#64748b; font-weight:700;">Order Reference</span>
+              <strong style="font-size:14px; color:#2563eb; font-family:monospace;">${orderId}</strong>
+            </td>
+            <td style="padding:12px 16px; width:50%; border-bottom:1px solid #e2e8f0;">
+              <span style="display:block; font-size:11px; text-transform:uppercase; color:#64748b; font-weight:700;">Total Bill Amount</span>
+              <strong style="font-size:16px; color:#059669;">₹${totalAmount}</strong>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:12px 16px; width:50%; border-right:1px solid #e2e8f0;">
+              <span style="display:block; font-size:11px; text-transform:uppercase; color:#64748b; font-weight:700;">Delivery Contact</span>
+              <strong style="font-size:13px; color:#0f172a;">${phone}</strong>
+            </td>
+            <td style="padding:12px 16px; width:50%;">
+              <span style="display:block; font-size:11px; text-transform:uppercase; color:#64748b; font-weight:700;">Delivery Address</span>
+              <span style="font-size:12px; color:#334155;">${address}</span>
+            </td>
+          </tr>
+        </table>
+
+        <!-- Items Table -->
+        ${items.length > 0 ? `
+          <h3 style="font-size: 14px; font-weight: 700; color: #0f172a; margin: 20px 0 10px 0; text-transform: uppercase; letter-spacing: 0.5px;">Ordered Crackers Items (${items.length})</h3>
+          <table class="items-table">
+            <thead>
+              <tr>
+                <th style="width: 25px;">#</th>
+                <th>Item Description</th>
+                <th style="text-align: center; width: 45px;">Qty</th>
+                <th style="text-align: right; width: 70px;">Rate</th>
+                <th style="text-align: right; width: 85px;">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${itemsRows}
+            </tbody>
+            <tfoot>
+              <tr style="background: #f8fafc; font-weight: 700; border-top: 2px solid #cbd5e1;">
+                <td colspan="4" style="padding: 12px; text-align: right; color: #0f172a;">Grand Total Payable:</td>
+                <td style="padding: 12px; text-align: right; color: #059669; font-size: 15px;">₹${totalAmount}</td>
+              </tr>
+            </tfoot>
+          </table>
+        ` : ''}
+
+        <!-- Actions -->
+        <div style="text-align: center; margin: 28px 0 12px 0;">
+          <a href="https://wa.me/918610451118?text=Hello%20Get%20Pattas,%20enquiring%20about%20Order%20${orderId}" class="btn-wa" target="_blank">
+            💬 WhatsApp Support
+          </a>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="email-footer">
+        <p style="margin: 0 0 6px 0; font-weight: 600; color: #334155;">Get Pattas Kadai — Sivakasi Direct Factory Fireworks</p>
+        <p style="margin: 0 0 6px 0;">100% Genuine Certified Green Crackers | Safe Doorstep Dispatch</p>
+        <p style="margin: 0; color: #94a3b8;">Helpline: +91 86104 51118 | Email: sales@getpattas.com</p>
+      </div>
+    </div>
+  </body>
+  </html>
+  `;
+}
+
+// Send Status Email Helper
+async function sendOrderStatusEmail(order, newStatus, previousStatus) {
+  if (!order || !order.email || !order.email.trim()) {
+    console.log(`ℹ️ [Email Skipped] Order #${order?.orderId} has no customer email address.`);
+    return { sent: false, reason: 'Customer email address not provided on order' };
+  }
+
+  try {
+    const smtp = await getEmailTransporter();
+    if (!smtp.configured) {
+      console.log(`⚠️ [Email Skipped] SMTP credentials not configured (Set SMTP_USER & SMTP_PASS in .env or Admin UI).`);
+      return { sent: false, reason: 'SMTP not configured (Add SMTP_USER and SMTP_PASS in .env)' };
+    }
+
+    const htmlContent = generateOrderStatusEmailHtml(order, newStatus, previousStatus);
+    const orderRef = order.orderId || order.bookingNumber || 'Crackers Order';
+    const brandTitle = order.brandName || 'Get Pattas Kadai';
+
+    const mailOptions = {
+      from: smtp.from,
+      to: order.email.trim(),
+      subject: `Order Update [${newStatus.toUpperCase()}]: #${orderRef} - ${brandTitle}`,
+      html: htmlContent
+    };
+
+    const info = await smtp.transporter.sendMail(mailOptions);
+    console.log(`✅ [Email Sent] Order #${orderRef} status "${newStatus}" sent to ${order.email} (MsgId: ${info.messageId})`);
+    return { sent: true, messageId: info.messageId, recipient: order.email };
+  } catch (err) {
+    console.error(`❌ [Email Error] Failed to send email for Order #${order?.orderId}:`, err.message);
+    return { sent: false, error: err.message };
+  }
+}
+
+// ==========================================
+// 30-DAY DRAFT ORDER AUTO-CLEANUP MECHANISM
+// ==========================================
+async function cleanupExpiredDraftOrders() {
+  const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
+  try {
+    if (isDbConnected) {
+      const result = await Order.deleteMany({
+        isDraftDeleted: true,
+        deletedAt: { $lte: thirtyDaysAgo }
+      });
+      if (result.deletedCount > 0) {
+        console.log(`🧹 [Auto-Cleanup] Purged ${result.deletedCount} draft-deleted orders older than 30 days.`);
+      }
+    }
+    // Clean memory orders as well
+    const beforeCount = memoryOrders.length;
+    memoryOrders = memoryOrders.filter(o => {
+      if (o.isDraftDeleted && o.deletedAt) {
+        return new Date(o.deletedAt) > thirtyDaysAgo;
+      }
+      return true;
+    });
+    const purgedMemory = beforeCount - memoryOrders.length;
+    if (purgedMemory > 0) {
+      console.log(`🧹 [Auto-Cleanup] Purged ${purgedMemory} memory draft-deleted orders.`);
+    }
+  } catch (err) {
+    console.error('⚠️ [Auto-Cleanup Error]:', err.message);
+  }
+}
+
+// Run cleanup immediately on server start and every 6 hours
+setTimeout(cleanupExpiredDraftOrders, 5000);
+setInterval(cleanupExpiredDraftOrders, 6 * 60 * 60 * 1000);
+
+// ==========================================
+// ORDER MANAGEMENT REST APIS
+// ==========================================
+
+// GET Orders (Admin) - Supports draft filter & triggers 30-day cleanup
 app.get('/api/orders', async (req, res) => {
   try {
+    await cleanupExpiredDraftOrders();
+
     if (isDbConnected) {
       const orders = await Order.find().sort({ createdAt: -1 });
       return res.json(orders);
@@ -697,11 +1017,32 @@ app.get('/api/orders', async (req, res) => {
   }
 });
 
-// POST Place New Order (Storefront Customer)
+// GET Single Order by ID or Booking Number (for Invoice & Customer Tracking)
+app.get(['/api/orders/:id', '/api/orders/booking/:id'], async (req, res) => {
+  try {
+    const { id } = req.params;
+    let order = null;
+    if (isDbConnected) {
+      order = await Order.findOne({ $or: [{ orderId: id }, { bookingNumber: id }] });
+    }
+    if (!order) {
+      order = memoryOrders.find(o => o.orderId === id || o.bookingNumber === id);
+    }
+    if (!order) {
+      return res.status(404).json({ success: false, message: `Order #${id} not found` });
+    }
+    return res.json({ success: true, order });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// POST Place New Order (Storefront Customer & WhatsApp Checkout)
 app.post('/api/orders', async (req, res) => {
   try {
     const {
       orderId: clientOrderId,
+      bookingNumber,
       brand,
       brandName,
       customerName,
@@ -718,15 +1059,16 @@ app.post('/api/orders', async (req, res) => {
       createdAt
     } = req.body;
 
-    const orderId = clientOrderId || ('ORD-' + Math.floor(100000 + Math.random() * 900000));
+    const orderId = clientOrderId || bookingNumber || ('ORD-' + Math.floor(100000 + Math.random() * 900000));
 
     const newOrder = {
       orderId,
+      bookingNumber: bookingNumber || orderId,
       brand: brand || 'getpattasu',
-      brandName: brandName || 'Get Pattasu Kadai',
+      brandName: brandName || 'Get Pattas Kadai',
       customerName: customerName || 'Valued Customer',
       phone: phone || '8610451118',
-      email: email || '',
+      email: (email || '').trim(),
       address: address || 'Store Pickup / WhatsApp Order',
       items: items || [],
       totalAmount: Number(totalAmount) || 0,
@@ -735,44 +1077,396 @@ app.post('/api/orders', async (req, res) => {
       paymentMethod: paymentMethod || 'UPI QR Scan',
       utrRef: utrRef || '',
       status: status || 'Pending',
+      isDraftDeleted: false,
+      deletedAt: null,
       createdAt: createdAt ? new Date(createdAt) : new Date()
     };
 
+    let createdOrder = newOrder;
+
     if (isDbConnected) {
       try {
-        const created = await Order.create(newOrder);
-        return res.status(201).json({ success: true, order: created });
+        createdOrder = await Order.create(newOrder);
       } catch (dbErr) {
-        memoryOrders.unshift(newOrder);
-        return res.status(201).json({ success: true, order: newOrder });
+        // Fallback or update if already exists
+        const existing = await Order.findOne({ orderId });
+        if (existing) {
+          createdOrder = existing;
+        } else {
+          memoryOrders.unshift(newOrder);
+        }
       }
     } else {
       memoryOrders.unshift(newOrder);
-      return res.status(201).json({ success: true, order: newOrder });
     }
+
+    // Trigger confirmation email if email is provided and configured
+    if (newOrder.email) {
+      sendOrderStatusEmail(newOrder, newOrder.status, 'New Booking').catch(() => {});
+    }
+
+    return res.status(201).json({ success: true, order: createdOrder });
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });
   }
 });
 
-// PUT Update Order Status (Admin)
+// PUT Update Order Status (Admin) - Updates status and triggers automated SMTP email
 app.put('/api/orders/:id/status', async (req, res) => {
   try {
     const { id } = req.params;
-    const { status } = req.body;
+    let { status, order: clientOrder } = req.body;
+
+    if (!status) {
+      return res.status(400).json({ success: false, message: 'Status is required' });
+    }
+
+    // Normalize status names
+    const statusMap = {
+      'pending': 'Pending',
+      'processing': 'Processing',
+      'complete': 'Completed',
+      'completed': 'Completed',
+      'delivered': 'Completed',
+      'cancelling': 'Cancelled',
+      'cancelled': 'Cancelled'
+    };
+    const normalizedStatus = statusMap[status.toLowerCase()] || status;
+
+    let targetOrder = null;
+    let previousStatus = '';
 
     if (isDbConnected) {
-      const updated = await Order.findOneAndUpdate({ orderId: id }, { status }, { new: true });
-      return res.json({ success: true, order: updated });
-    } else {
-      const order = memoryOrders.find(o => o.orderId === id);
-      if (order) order.status = status;
-      return res.json({ success: true, order });
+      const existing = await Order.findOne({ $or: [{ orderId: id }, { bookingNumber: id }] });
+      if (existing) {
+        previousStatus = existing.status;
+        existing.status = normalizedStatus;
+        targetOrder = await existing.save();
+      }
     }
+
+    // Memory fallback or sync
+    const memOrder = memoryOrders.find(o => o.orderId === id || o.bookingNumber === id);
+    if (memOrder) {
+      if (!previousStatus) previousStatus = memOrder.status;
+      memOrder.status = normalizedStatus;
+      if (!targetOrder) targetOrder = memOrder;
+    }
+
+    // Auto-upsert if order was created locally in localStorage and not yet on server
+    if (!targetOrder) {
+      const fallback = clientOrder || req.body || {};
+      const newOrder = {
+        orderId: id,
+        bookingNumber: fallback.bookingNumber || id,
+        brand: fallback.brand || 'getpattasu',
+        brandName: fallback.brandName || 'Get Pattas Kadai',
+        customerName: fallback.customerName || 'Valued Customer',
+        phone: fallback.phone || '8610451118',
+        email: (fallback.email || '').trim(),
+        address: fallback.address || 'Direct Sivakasi Transport / Store Order',
+        items: fallback.items || [],
+        totalAmount: Number(fallback.totalAmount) || 0,
+        totalItems: Number(fallback.totalItems) || (fallback.items ? fallback.items.length : 0),
+        totalBoxes: Number(fallback.totalBoxes) || 0,
+        paymentMethod: fallback.paymentMethod || 'WhatsApp Direct / UPI',
+        utrRef: fallback.utrRef || '',
+        status: normalizedStatus,
+        isDraftDeleted: Boolean(fallback.isDraftDeleted),
+        deletedAt: fallback.deletedAt ? new Date(fallback.deletedAt) : null,
+        createdAt: fallback.createdAt ? new Date(fallback.createdAt) : new Date()
+      };
+
+      if (isDbConnected) {
+        try {
+          targetOrder = await Order.create(newOrder);
+        } catch (dbErr) {
+          memoryOrders.unshift(newOrder);
+          targetOrder = newOrder;
+        }
+      } else {
+        memoryOrders.unshift(newOrder);
+        targetOrder = newOrder;
+      }
+    }
+
+    // Trigger automated SMTP notification email asynchronously
+    const emailResult = await sendOrderStatusEmail(targetOrder, normalizedStatus, previousStatus);
+
+    return res.json({
+      success: true,
+      order: targetOrder,
+      newStatus: normalizedStatus,
+      emailSent: emailResult.sent,
+      emailDetails: emailResult
+    });
+  } catch (err) {
+    console.error('Error updating order status:', err);
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// POST Draft Delete (Soft Delete with 30-day retention)
+app.post('/api/orders/:id/draft-delete', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const now = new Date();
+    let updatedOrder = null;
+
+    if (isDbConnected) {
+      updatedOrder = await Order.findOneAndUpdate(
+        { $or: [{ orderId: id }, { bookingNumber: id }] },
+        { isDraftDeleted: true, deletedAt: now },
+        { new: true }
+      );
+    }
+
+    const memOrder = memoryOrders.find(o => o.orderId === id || o.bookingNumber === id);
+    if (memOrder) {
+      memOrder.isDraftDeleted = true;
+      memOrder.deletedAt = now;
+      if (!updatedOrder) updatedOrder = memOrder;
+    }
+
+    // Auto-upsert into draft trash if not previously saved on server
+    if (!updatedOrder) {
+      const fallback = req.body?.order || {};
+      const newOrder = {
+        orderId: id,
+        bookingNumber: fallback.bookingNumber || id,
+        brand: fallback.brand || 'getpattasu',
+        brandName: fallback.brandName || 'Get Pattas Kadai',
+        customerName: fallback.customerName || 'Valued Customer',
+        phone: fallback.phone || '8610451118',
+        email: (fallback.email || '').trim(),
+        address: fallback.address || 'Store Pickup / WhatsApp Order',
+        items: fallback.items || [],
+        totalAmount: Number(fallback.totalAmount) || 0,
+        status: fallback.status || 'Pending',
+        isDraftDeleted: true,
+        deletedAt: now,
+        createdAt: fallback.createdAt ? new Date(fallback.createdAt) : now
+      };
+      if (isDbConnected) {
+        try {
+          updatedOrder = await Order.create(newOrder);
+        } catch (e) {
+          memoryOrders.unshift(newOrder);
+          updatedOrder = newOrder;
+        }
+      } else {
+        memoryOrders.unshift(newOrder);
+        updatedOrder = newOrder;
+      }
+    }
+
+    return res.json({
+      success: true,
+      message: 'Order moved to Draft Trash (will automatically delete after 30 days)',
+      order: updatedOrder
+    });
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });
   }
 });
+
+// POST Restore Draft Deleted Order
+app.post('/api/orders/:id/restore', async (req, res) => {
+  try {
+    const { id } = req.params;
+    let updatedOrder = null;
+
+    if (isDbConnected) {
+      updatedOrder = await Order.findOneAndUpdate(
+        { $or: [{ orderId: id }, { bookingNumber: id }] },
+        { isDraftDeleted: false, deletedAt: null },
+        { new: true }
+      );
+    }
+
+    const memOrder = memoryOrders.find(o => o.orderId === id || o.bookingNumber === id);
+    if (memOrder) {
+      memOrder.isDraftDeleted = false;
+      memOrder.deletedAt = null;
+      if (!updatedOrder) updatedOrder = memOrder;
+    }
+
+    if (!updatedOrder) {
+      const fallback = req.body?.order || {};
+      const newOrder = {
+        orderId: id,
+        bookingNumber: fallback.bookingNumber || id,
+        brand: fallback.brand || 'getpattasu',
+        brandName: fallback.brandName || 'Get Pattas Kadai',
+        customerName: fallback.customerName || 'Valued Customer',
+        phone: fallback.phone || '8610451118',
+        email: (fallback.email || '').trim(),
+        address: fallback.address || 'Store Pickup / WhatsApp Order',
+        items: fallback.items || [],
+        totalAmount: Number(fallback.totalAmount) || 0,
+        status: fallback.status || 'Pending',
+        isDraftDeleted: false,
+        deletedAt: null,
+        createdAt: fallback.createdAt ? new Date(fallback.createdAt) : new Date()
+      };
+      if (isDbConnected) {
+        try {
+          updatedOrder = await Order.create(newOrder);
+        } catch (e) {
+          memoryOrders.unshift(newOrder);
+          updatedOrder = newOrder;
+        }
+      } else {
+        memoryOrders.unshift(newOrder);
+        updatedOrder = newOrder;
+      }
+    }
+
+    return res.json({
+      success: true,
+      message: 'Order restored to active orders list',
+      order: updatedOrder
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// DELETE Permanently Delete Order (Admin)
+app.delete('/api/orders/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    if (isDbConnected) {
+      await Order.findOneAndDelete({ $or: [{ orderId: id }, { bookingNumber: id }] });
+    }
+    memoryOrders = memoryOrders.filter(o => o.orderId !== id && o.bookingNumber !== id);
+
+    return res.json({ success: true, message: `Order #${id} permanently deleted` });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// DELETE Empty All Draft Deleted Orders (Admin)
+app.delete('/api/orders/drafts/empty', async (req, res) => {
+  try {
+    let deletedCount = 0;
+    if (isDbConnected) {
+      const resDb = await Order.deleteMany({ isDraftDeleted: true });
+      deletedCount = resDb.deletedCount || 0;
+    }
+    const before = memoryOrders.length;
+    memoryOrders = memoryOrders.filter(o => !o.isDraftDeleted);
+    deletedCount += (before - memoryOrders.length);
+
+    return res.json({
+      success: true,
+      message: `Draft trash emptied (${deletedCount} orders deleted permanently)`
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// GET /api/admin/smtp-config (Admin view SMTP settings without exposing full password)
+app.get('/api/admin/smtp-config', async (req, res) => {
+  try {
+    const smtp = await getEmailTransporter();
+    let config = null;
+    if (isDbConnected) {
+      config = await SiteConfig.findOne({ key: 'main_config' });
+    }
+    return res.json({
+      configured: smtp.configured,
+      host: smtp.host,
+      port: smtp.port,
+      user: smtp.user,
+      from: smtp.from,
+      hasPassword: Boolean(process.env.SMTP_PASS || config?.smtpPass)
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// PUT /api/admin/smtp-config (Admin save SMTP settings)
+app.put('/api/admin/smtp-config', async (req, res) => {
+  try {
+    const { smtpHost, smtpPort, smtpSecure, smtpUser, smtpPass, smtpFrom, smtpEnabled } = req.body;
+    const updateObj = {};
+    if (smtpHost !== undefined) updateObj.smtpHost = smtpHost;
+    if (smtpPort !== undefined) updateObj.smtpPort = Number(smtpPort);
+    if (smtpSecure !== undefined) updateObj.smtpSecure = Boolean(smtpSecure);
+    if (smtpUser !== undefined) updateObj.smtpUser = smtpUser;
+    if (smtpPass) updateObj.smtpPass = smtpPass; // Only update if non-empty
+    if (smtpFrom !== undefined) updateObj.smtpFrom = smtpFrom;
+    if (smtpEnabled !== undefined) updateObj.smtpEnabled = Boolean(smtpEnabled);
+
+    if (isDbConnected) {
+      await SiteConfig.findOneAndUpdate(
+        { key: 'main_config' },
+        updateObj,
+        { upsert: true, new: true }
+      );
+    }
+    return res.json({ success: true, message: 'SMTP Configuration saved successfully' });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// POST /api/admin/test-smtp (Admin send test email to verify credentials)
+app.post('/api/admin/test-smtp', async (req, res) => {
+  try {
+    const { testEmail } = req.body;
+    if (!testEmail || !testEmail.includes('@')) {
+      return res.status(400).json({ success: false, message: 'Valid test recipient email is required' });
+    }
+
+    const smtp = await getEmailTransporter();
+    if (!smtp.configured) {
+      return res.status(400).json({
+        success: false,
+        message: 'SMTP is not configured yet. Please enter your SMTP username and password in .env or SMTP Settings.'
+      });
+    }
+
+    const testMail = {
+      from: smtp.from,
+      to: testEmail.trim(),
+      subject: '✅ Get Pattas Kadai - SMTP Configuration Test Successful',
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 500px; margin: auto; padding: 24px; border: 1px solid #e2e8f0; border-radius: 8px;">
+          <h2 style="color: #059669; margin-top: 0;">🎉 SMTP Email Connection Verified!</h2>
+          <p style="color: #334155; font-size: 14px; line-height: 1.5;">
+            This is a test notification confirming that your SMTP email service is actively working on <strong>${smtp.host}:${smtp.port}</strong>.
+          </p>
+          <div style="background: #f8fafc; padding: 12px; border-radius: 6px; font-size: 13px; color: #475569;">
+            <strong>Sender:</strong> ${smtp.from}<br>
+            <strong>Time:</strong> ${new Date().toLocaleString('en-IN')}
+          </div>
+          <p style="color: #64748b; font-size: 12px; margin-top: 20px;">
+            Order status updates (Pending, Processing, Completed, Cancelled) will now automatically trigger email updates to your customers!
+          </p>
+        </div>
+      `
+    };
+
+    const info = await smtp.transporter.sendMail(testMail);
+    return res.json({
+      success: true,
+      message: `Test email sent successfully to ${testEmail}!`,
+      messageId: info.messageId
+    });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      message: `SMTP test failed: ${err.message}`
+    });
+  }
+});
+
 
 // GET Site Config (Hero & Contact Info)
 app.get('/api/config', async (req, res) => {

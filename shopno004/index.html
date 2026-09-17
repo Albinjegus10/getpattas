@@ -17,7 +17,7 @@
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <!-- Stylesheet -->
-  <link rel="stylesheet" href="styles.css?v=21">
+  <link rel="stylesheet" href="styles.css?v=26">
 </head>
 
 <body data-brand="getpattasu">
@@ -91,10 +91,10 @@
             style="background: linear-gradient(135deg, #ea580c, #c2410c); font-weight: 700;">
             <span><i class="fa-solid fa-cart-shopping"></i> View Estimate & Checkout</span>
           </button>
-          <a href="https://wa.me/918610451118?text=Hi%20Get%20Pattas!%20I%20want%20to%20order%20crackers."
-            target="_blank" class="btn btn-whatsapp full-width" onclick="closeMobileMenu()">
+          <button type="button" class="btn btn-whatsapp full-width"
+            onclick="closeMobileMenu(); sendWhatsAppDirectOrder();">
             <span><i class="fa-brands fa-whatsapp"></i> WhatsApp Order</span>
-          </a>
+          </button>
         </div>
       </nav>
 
@@ -218,9 +218,10 @@
       <!-- Active Brand Header Strip -->
       <div class="active-brand-banner" id="activeBrandBanner">
         <div class="brand-banner-info">
-          <span class="current-brand-badge" id="currentBrandBadge"><i class="fa-solid fa-wand-magic-sparkles"></i> GET
-            GET PATTAS</span>
-          <h2 class="current-brand-title" id="currentBrandTitle">Get Pattas Kadai - Wholesale Price List</h2>
+          <span class="current-brand-badge" id="currentBrandBadge" style="background: #d97706;"><i
+              class="fa-solid fa-wand-magic-sparkles"></i> GET PATTAS (SHOP 004)</span>
+          <h2 class="current-brand-title" id="currentBrandTitle">Get Pattas - Crackers Wholesale Price
+            List 004</h2>
           <p class="current-brand-tagline" id="currentBrandTagline">Direct Sivakasi Factory Rate • Flat 80% Discount •
             Touch '+' to increase quantity</p>
         </div>
@@ -325,8 +326,8 @@
           </div>
           <div class="banner-price-action">
             <div class="prices">
-              <span class="original-mrp" id="comboBannerMrp">MRP ₹9,000</span>
-              <span class="offer-price" id="comboBannerPrice">₹1,799</span>
+              <span class="original-mrp" id="comboBannerMrp">MRP ₹10,000</span>
+              <span class="offer-price" id="comboBannerPrice">₹5,000</span>
             </div>
             <button class="btn btn-primary" onclick="addComboToCart('combo-1')" id="comboBannerBtn"><i
                 class="fa-solid fa-cart-shopping"></i> Add Grand Combo Pack</button>
@@ -687,9 +688,9 @@
         <!-- Col 1: Brand & Certification -->
         <div class="footer-col brand-col">
           <a href="#hero" class="brand-logo footer-logo">
-            <img src="assets/moblie_getpattas_banner_main.jpeg" alt="Get Pattas Kadai Logo" class="brand-logo-img">
+            <img src="assets/logo.jpg" alt="Get Pattas Kadai Logo" class="brand-logo-img">
             <div class="logo-text">
-              <span class="brand-name"><span class="brand-get">GET</span> <span class="highlight">PATTASU</span> <span
+              <span class="brand-name"><span class="brand-get">GET</span> <span class="highlight">PATTAS</span> <span
                   class="kadai-tag">KADAI</span></span>
               <span class="brand-sub">Sivakasi Factory Wholesale</span>
             </div>
@@ -711,7 +712,7 @@
           <h4 class="footer-heading">Quick Links</h4>
           <ul class="footer-links">
             <li><a href="#hero">Home</a></li>
-            <li><a href="#about">About Get Pattasu</a></li>
+            <li><a href="#about">About Get Pattas</a></li>
             <li><a href="#safety">Safety Guidelines</a></li>
             <li><a href="#reviews">Google Reviews</a></li>
             <li><a href="#contact">Contact Store</a></li>
@@ -964,7 +965,13 @@
         <!-- Right Column: Order Summary Sidebar -->
         <div class="checkout-right-col">
           <div class="checkout-summary-card">
-            <h4>Order Summary</h4>
+            <div class="co-summary-header">
+              <h4>Order Summary</h4>
+              <button type="button" class="co-clear-all-btn" onclick="clearAllCheckoutItems()"
+                title="Clear entire order">
+                <i class="fa-solid fa-trash-can"></i> Clear All
+              </button>
+            </div>
 
             <!-- Dynamic Items Preview -->
             <div class="co-items-preview-list" id="coItemsPreviewList">
@@ -1412,8 +1419,8 @@
 
   <script src="html2pdf.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script src="catalogData.js?v=2"></script>
-  <script src="app.js?v=23"></script>
+  <script src="catalogData.js?v=3"></script>
+  <script src="app.js?v=26"></script>
 </body>
 
 </html>

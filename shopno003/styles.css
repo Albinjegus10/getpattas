@@ -218,24 +218,55 @@ img {
   height: 52px;
   width: auto;
   max-width: 180px;
-  object-fit: contain;
-  border-radius: 8px;
+  object-fit: contain !important;
+  border-radius: 6px;
   display: block;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 
 .mobile-menu-logo-img {
   height: 44px;
   width: auto;
   max-width: 140px;
+  object-fit: contain !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 
 .brand-logo-img {
-  width: 46px;
-  height: 46px;
-  border-radius: 8px;
-  object-fit: cover;
+  width: auto;
+  height: 52px;
+  max-width: 180px;
+  border-radius: 6px;
+  object-fit: contain !important;
   flex-shrink: 0;
   display: block;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.brand-logo-img.navbar-logo-img {
+  width: auto;
+  height: 52px;
+  max-width: 180px;
+  object-fit: contain !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.brand-logo-img.mobile-menu-logo-img {
+  width: auto;
+  height: 44px;
+  max-width: 140px;
+  object-fit: contain !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 
 .brand-logo-emblem {
@@ -248,7 +279,6 @@ img {
   justify-content: center;
   color: #ffffff;
   font-size: 1.35rem;
-  box-shadow: 0 4px 14px rgba(214, 40, 40, 0.35);
   transition: var(--transition);
 }
 
@@ -261,7 +291,6 @@ img {
 
 .brand-logo:hover .brand-logo-emblem {
   transform: scale(1.06) rotate(-4deg);
-  box-shadow: 0 6px 20px rgba(214, 40, 40, 0.5);
 }
 
 .brand-name {
@@ -276,8 +305,9 @@ img {
   font-family: var(--font-heading);
 }
 
-.brand-name .brand-get {
-  color: #0f172a;
+.brand-name .brand-get,
+.brand-get {
+  color: #ffffff !important;
 }
 
 .brand-name .highlight {
@@ -362,7 +392,7 @@ img {
 
 .search-icon-lead {
   color: #94a3b8;
-  font-size: 0.95rem;
+  font-size: 1.18rem;
   flex-shrink: 0;
 }
 
@@ -417,8 +447,8 @@ img {
 }
 
 .nav-icon-btn {
-  width: 42px;
-  height: 42px;
+  width: 46px;
+  height: 46px;
   border-radius: 50%;
   background: #f8fafc;
   border: 1.5px solid #e2e8f0;
@@ -426,7 +456,7 @@ img {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.15rem;
+  font-size: 1.38rem;
   position: relative;
   cursor: pointer;
   transition: var(--transition);
@@ -447,6 +477,7 @@ img {
 }
 
 .cart-nav-btn i {
+  font-size: 1.38rem;
   display: inline-block;
   transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
@@ -504,14 +535,14 @@ img {
 
 .action-count-badge {
   position: absolute;
-  top: -3px;
-  right: -3px;
+  top: -4px;
+  right: -4px;
   background: #d62828;
   color: #ffffff;
-  font-size: 0.68rem;
+  font-size: 0.72rem;
   font-weight: 800;
-  width: 19px;
-  height: 19px;
+  width: 21px;
+  height: 21px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -2335,6 +2366,59 @@ img {
 .footer-logo {
   margin-bottom: 1.1rem;
   display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+}
+
+.footer-logo .brand-logo-img {
+  height: 48px;
+  width: auto;
+  max-width: 160px;
+  object-fit: contain !important;
+  border-radius: 6px;
+  display: block;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.footer-logo .brand-name {
+  font-size: 1.35rem;
+  font-weight: 900;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.footer-logo .brand-name .brand-get,
+.footer-logo .brand-get {
+  color: #ffffff !important;
+  font-weight: 900;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+.footer-logo .brand-name .highlight {
+  color: #ef4444;
+  background: linear-gradient(135deg, #f87171 0%, #fb923c 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.footer-logo .brand-name .kadai-tag {
+  background: linear-gradient(135deg, #ea580c 0%, #d97706 100%);
+  color: #ffffff;
+  padding: 0.12rem 0.45rem;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  letter-spacing: 0.5px;
+}
+
+.footer-logo .brand-sub {
+  color: #94a3b8;
+  font-size: 0.68rem;
+  letter-spacing: 1.2px;
 }
 
 .footer-desc {
@@ -2907,9 +2991,12 @@ img {
     padding: 0.5rem 0.85rem;
   }
 
-  .brand-logo-img {
-    width: 38px;
-    height: 38px;
+  .brand-logo-img,
+  .brand-logo-img.navbar-logo-img {
+    height: 40px;
+    width: auto;
+    max-width: 130px;
+    object-fit: contain !important;
   }
 
   .brand-name {
@@ -4760,21 +4847,174 @@ body[data-brand="getpattasu"] .brand-dedicated-hero {
 }
 
 /* Right Column — Order Summary */
+/* Right Column — Order Summary Header */
+.co-summary-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.co-summary-header h4,
 .checkout-summary-card h4 {
   font-size: 1.05rem;
-  color: var(--text-main);
+  color: var(--text-main, #0f172a);
   font-weight: 700;
-  margin-bottom: 1.2rem;
-  padding-bottom: 0.8rem;
-  border-bottom: 1px solid #e2e8f0;
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+.co-clear-all-btn {
+  background: #fee2e2;
+  color: #dc2626;
+  border: 1px solid #fca5a5;
+  padding: 0.3rem 0.65rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  transition: all 0.2s ease;
+}
+
+.co-clear-all-btn:hover {
+  background: #dc2626;
+  color: #ffffff;
+  border-color: #dc2626;
 }
 
 /* Item Preview List */
 .co-items-preview-list {
   display: flex;
   flex-direction: column;
-  gap: 0.8rem;
+  gap: 0.75rem;
   margin-bottom: 1.2rem;
+  max-height: 280px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.co-preview-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.65rem 0.75rem;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  gap: 0.6rem;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.co-preview-item:hover {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+}
+
+.co-preview-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.co-preview-name {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-main, #0f172a);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.3;
+}
+
+.co-preview-meta {
+  display: block;
+  font-size: 0.72rem;
+  color: #64748b;
+  margin-top: 2px;
+}
+
+.co-preview-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.co-stepper {
+  display: flex;
+  align-items: center;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.co-btn-step {
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f8fafc;
+  border: none;
+  color: #1e293b;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  user-select: none;
+}
+
+.co-btn-step:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+.co-btn-step:active {
+  transform: scale(0.92);
+}
+
+.co-qty-val {
+  min-width: 24px;
+  text-align: center;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #0f172a;
+  padding: 0 0.25rem;
+}
+
+.co-preview-price {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #0f172a;
+  min-width: 58px;
+  text-align: right;
+}
+
+.co-btn-remove {
+  background: none;
+  border: none;
+  color: #94a3b8;
+  font-size: 0.85rem;
+  padding: 0.35rem;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.co-btn-remove:hover {
+  color: #ef4444;
+  background: #fee2e2;
 }
 
 .co-item-preview {
@@ -5521,7 +5761,7 @@ body[data-brand="getpattasu"] .brand-dedicated-hero {
 }
 
 /* ==========================================================================
-   BRAND SWITCHER SECTION (4 PROMINENT BRANDS: MUTHU, Get pattas , RED, GET PATTASU)
+   BRAND SWITCHER SECTION (4 PROMINENT BRANDS: MUTHU, Get pattas , RED, Get Pattas)
    ========================================================================== */
 .brand-switcher-section {
   padding: 2.5rem 0 1.5rem;
@@ -6655,7 +6895,7 @@ body[data-brand="getpattasu"] .brand-dedicated-hero {
    1. Get pattas 's Crackers: Royal Electric Purple (#7c3aed, #6d28d9, #f5f3ff)
    2. Get pattas Crackers: Emerald Forest Green (#059669, #047857, #ecfdf5)
    3. The Get pattas : Fiery Crimson Get pattas (#dc2626, #b91c1c, #fef2f2)
-   4. Get Pattasu: Festive Golden Amber & Crimson (#d97706, #b45309, #fffbeb)
+   4. Get Pattas: Festive Golden Amber & Crimson (#d97706, #b45309, #fffbeb)
    ========================================================================== */
 
 .brand-dedicated-hero {
@@ -6715,8 +6955,8 @@ body[data-brand="Get pattas "] {
 }
 
 body[data-brand="Get pattas "] .brand-logo-img {
-  border-color: #7c3aed !important;
-  box-shadow: 0 0 14px rgba(124, 58, 237, 0.4) !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 
 body[data-brand="Get pattas "] .brand-name .highlight {
@@ -6847,8 +7087,8 @@ body[data-brand="muthu"] {
 }
 
 body[data-brand="muthu"] .brand-logo-img {
-  border-color: #059669 !important;
-  box-shadow: 0 0 14px rgba(5, 150, 105, 0.4) !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 
 body[data-brand="muthu"] .brand-name .highlight {
@@ -6979,8 +7219,8 @@ body[data-brand="red"] {
 }
 
 body[data-brand="red"] .brand-logo-img {
-  border-color: #dc2626 !important;
-  box-shadow: 0 0 14px rgba(220, 38, 38, 0.4) !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 
 body[data-brand="red"] .brand-name .highlight {
@@ -7099,7 +7339,7 @@ body[data-brand="red"] .btn-primary {
 }
 
 /* ----------------------------------------------------
-   THEME 4: GET PATTASU (FESTIVE GOLDEN AMBER)
+   THEME 4: Get Pattas (FESTIVE GOLDEN AMBER)
    ---------------------------------------------------- */
 body[data-brand="getpattasu"] {
   --primary-red: #d97706 !important;
@@ -7111,8 +7351,8 @@ body[data-brand="getpattasu"] {
 }
 
 body[data-brand="getpattasu"] .brand-logo-img {
-  border-color: #d97706 !important;
-  box-shadow: 0 0 14px rgba(217, 119, 6, 0.4) !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 
 body[data-brand="getpattasu"] .brand-name .highlight {
@@ -7330,9 +7570,12 @@ body[data-brand="getpattasu"] .btn-primary {
     gap: 0.6rem;
   }
 
-  .brand-logo-img {
-    width: 36px;
-    height: 36px;
+  .brand-logo-img,
+  .brand-logo-img.navbar-logo-img {
+    height: 38px;
+    width: auto;
+    max-width: 120px;
+    object-fit: contain !important;
   }
 
   .brand-name {
@@ -8111,12 +8354,17 @@ body[data-brand="getpattasu"] .btn-primary {
 
 .auth-icon i,
 .cart-icon i {
-  font-size: 1rem;
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.customer-auth-btn .auth-icon i {
+  font-size: 1.25rem;
   line-height: 1;
 }
 
 .search-icon i {
-  font-size: 0.95rem;
+  font-size: 1.15rem;
   color: #94a3b8;
 }
 
@@ -8511,13 +8759,13 @@ body[data-brand="getpattasu"] .mobile-menu-actions .btn-primary {
 .customer-auth-btn {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.55rem;
   background: #ffffff;
   border: 1.5px solid #e2e8f0;
   color: #0f172a;
-  padding: 0.48rem 0.95rem;
+  padding: 0.5rem 1rem;
   border-radius: 30px;
-  font-size: 0.88rem;
+  font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
   transition: var(--transition);

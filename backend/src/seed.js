@@ -8,7 +8,7 @@ const Admin = require('./models/Admin');
 const SEED_BRANDS = [
   {
     slug: 'getpattasu',
-    name: 'Get Pattasu',
+    name: 'Get Pattas',
     logoUrl: '/uploads/logo.jpg',
     themeColor: '#dc2626',
     contactPhone: ['+91 86104 51118', '+91 86104 51118'],

@@ -1,4 +1,4 @@
-# 🎆 Get Pattasu — Multi-Brand Sivakasi Fireworks Wholesale E-Commerce Platform
+# 🎆 Get Pattas — Multi-Brand Sivakasi Fireworks Wholesale E-Commerce Platform
 
 > **Direct Factory Consignment & Wholesale Cracker Ordering System**  
 > Supports **4 Dedicated Brand Storefronts**, **Centralized Admin Dashboard**, **Automated WhatsApp Order Dispatch**, and **Digital Wholesale Tax Invoice Generation**.
@@ -123,7 +123,7 @@ get-pattasu/
 1. **Clone the repository**:
    ```bash
    git clone <your-repository-url>
-   cd "get pattasu"
+   cd "Get Pattas"
    ```
 
 2. **Configure Environment Variables**:

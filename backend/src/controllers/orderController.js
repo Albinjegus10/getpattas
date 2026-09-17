@@ -1,5 +1,5 @@
 /* ==========================================================================
-   GET PATTASU - MULTI-BRAND ORDER CONTROLLER
+   Get Pattas - MULTI-BRAND ORDER CONTROLLER
    ==========================================================================
    COMPLIANCE NOTICE (DO NOT REMOVE):
    Per the 2018 Supreme Court of India order, online sale and delivery of firecrackers
@@ -17,7 +17,7 @@ const { memoryStore } = require('../seed');
 const createOrder = async (req, res) => {
   try {
     const { brand: brandSlug, brandId, totalAmount, bookingNumber, orderId } = req.body;
-    
+
     // Support nested customer object or flat fields
     const customer = req.body.customer || {
       name: req.body.customerName,
